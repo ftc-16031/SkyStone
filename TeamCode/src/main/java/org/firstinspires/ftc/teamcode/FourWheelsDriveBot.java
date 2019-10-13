@@ -148,7 +148,8 @@ public class FourWheelsDriveBot
                 print(msg);
         }
 
-        double power = maxPower;
+        resetProgressivePower();
+        double power = progressivePower(0.1, maxPower, target, 0);
 
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -159,9 +160,18 @@ public class FourWheelsDriveBot
         leftRear.setPower(power);
         rightRear.setPower(power);
         while (this.opMode.opModeIsActive() && leftFront.isBusy()) {
+            // gradually increase the power
+            int progress = Math.abs(leftFront.getCurrentPosition() - startingPosition);
+            power = progressivePower(0.1, maxPower, target, 0);
+            leftFront.setPower(power);
+            rightFront.setPower(power);
+            leftRear.setPower(power);
+            rightRear.setPower(power);
             // Display it for the driver.
-            print(String.format("Target : %7d @ leftFront: %7d, rightFront:%7d, leftRear:%7d, rightRear:%7d",
+            print(String.format("Progress : %7d/%7d @ %0.2f; leftFront: %7d, rightFront:%7d, leftRear:%7d, rightRear:%7d",
+                    progress,
                     target,
+                    power,
                     leftFront.getCurrentPosition(),
                     rightFront.getCurrentPosition(),
                     leftRear.getCurrentPosition(),
@@ -178,5 +188,47 @@ public class FourWheelsDriveBot
                 rightFront.getCurrentPosition(),
                 leftRear.getCurrentPosition(),
                 rightRear.getCurrentPosition()));
+    }
+
+    // TODO move to its own class
+    protected int progressivePowerStepDistance = 0;
+    protected int progressivePowerPreviousProgress = 0;
+    protected void resetProgressivePower(){
+        progressivePowerStepDistance = 0;
+        progressivePowerPreviousProgress = 0;
+    }
+    /**
+     * Generate a progress power value, to help start smoothly, and stop smoothly
+     *
+     * @param currentPower
+     * @param maxPower
+     * @param target
+     * @param progress
+     * @return new power value
+     */
+    protected double progressivePower(double currentPower, double maxPower, int target, int progress){
+        // TODO receive step in the reset method
+        double step = 0.1;
+        if (progress < (Math.abs(target) / 2)){
+            // first half,
+            // remember the step distance, so we can use it in second half
+            if (progressivePowerPreviousProgress > 0){
+                progressivePowerStepDistance = progress - progressivePowerPreviousProgress;
+            }
+            progressivePowerPreviousProgress = progress;
+            // increase a little bit on each step
+            return Math.min(currentPower + step, maxPower);
+        }
+        else{
+            // second half
+            int remaining = Math.abs(target) - progress;
+            if (remaining < (int) Math.round(currentPower / step) * progressivePowerStepDistance ){
+                // remaining is less than estimate distance need to step down, so let's start power down
+                return Math.max(currentPower - step, step);
+            }
+            else{
+                return maxPower;
+            }
+        }
     }
 }
