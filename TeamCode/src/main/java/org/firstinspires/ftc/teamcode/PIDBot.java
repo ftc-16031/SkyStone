@@ -40,6 +40,7 @@ public class PIDBot extends GyroBot {
     }
     public void driveStraightbyDistancePID(int direction, double distance, double maxPower){
         // distance (in mm) = revolution * pi * diameter (100 mm)
+
         int target = (int)(distance / 3.1415 / 100 * DRIVING_MOTOR_TICK_COUNT);
         int startingPosition = leftFront.getCurrentPosition();
         switch (direction){
@@ -82,14 +83,15 @@ public class PIDBot extends GyroBot {
             default:
                 String msg = String.format("Unaccepted direction value (%d) for driveStraightByDistance()", direction);
                 print(msg);
+
         }
 
         double power = maxPower;
 
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFront.setPower(power);
         rightFront.setPower(power);
         leftRear.setPower(power);

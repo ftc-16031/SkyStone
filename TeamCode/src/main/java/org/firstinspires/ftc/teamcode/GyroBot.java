@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class GyroBot extends FourWheelsDriveBot {
+public class GyroBot extends TensorFlowBot {
 
     DcMotor leftMotor, rightMotor;
     BNO055IMU imu;
@@ -21,6 +21,7 @@ public class GyroBot extends FourWheelsDriveBot {
     public GyroBot(LinearOpMode opMode) {
         super(opMode);
     }
+
 
     @Override
     public void init(HardwareMap ahwMap) {
