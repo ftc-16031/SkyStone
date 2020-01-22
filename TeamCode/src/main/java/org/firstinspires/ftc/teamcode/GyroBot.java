@@ -48,7 +48,6 @@ public class GyroBot extends CameraBot {
 
     public double getDeltaAngle() {
 
-        resetAngle();
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - startAngle;
