@@ -30,6 +30,7 @@ public class BlueStreet extends LinearOpMode {
         waitForStart();
         setDirection();
         skystonePostition = robot.detectSkystone();
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 1);
             robot.driveUntilDistance(19, 0.3, 0);
             robot.driveStraightByDistance(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1]);
 
