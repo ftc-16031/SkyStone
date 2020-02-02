@@ -30,13 +30,12 @@ public class BlueStreet extends LinearOpMode {
         waitForStart();
         setDirection();
         skystonePostition = robot.detectSkystone();
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 1);
             robot.driveUntilDistance(19, 0.3, 0);
             robot.driveStraightByDistance(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1]);
 
             robot.pickupSkyStone();
 
-            sleep(500);
+            sleep(200);
 //            robot.driveUntilDistance(35, 0.3, 1);
 
 //            robot.driveStraightByDistance(direction_forward, distFoundMove[skystonePostition - 1], 0.8);
@@ -46,11 +45,10 @@ public class BlueStreet extends LinearOpMode {
 
 //            robot.goBacktoStartAngle();
 
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 0.5);
             robot.dropSkyStone();
 
             robot.originalPosition();
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 0.5);
+            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
 
 
 //            robot.driveStraightByDistance(direction_backward, distBackMove[skystonePostition - 1], 0.8);
@@ -69,7 +67,7 @@ public class BlueStreet extends LinearOpMode {
             robot.driveUntilDistance(19, 0.3, 0);
 
             robot.pickupSkyStone();
-            sleep(500);
+            sleep(100);
 
 
 //            robot.driveUntilDistance(35, 0.3, 0);
@@ -79,10 +77,9 @@ public class BlueStreet extends LinearOpMode {
 
 
 
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 0.5);
             robot.dropSkyStone();
 
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 100, 0.5);
+            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 100, 1);
 
 
             robot.driveStraightByDistance(direction_backward, 1400, 1);

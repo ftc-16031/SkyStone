@@ -16,7 +16,7 @@ public class RedStreet extends LinearOpMode {
 
     int[] distFirstMove = new int[]{300, 100, -100};
     int[] distFoundMove = new int[]{1300, 1500, 1700};
-    int[] distBackMove = new int[]{1950, 2150, 1350};
+    int[] distBackMove = new int[]{1850, 2050, 1250};
 
     int skystonePostition;
     protected void setDirection(){
@@ -32,46 +32,49 @@ public class RedStreet extends LinearOpMode {
         waitForStart();
         setDirection();
         skystonePostition = robot.detectSkystone();
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 1);
-            robot.driveUntilDistance(20, 0.3, 1);
+            robot.driveUntilDistance(22, 0.4, 1);
             robot.driveStraightByDistance(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1]);
             robot.pickupSkyStone();
-            sleep(500);
+            sleep(100);
 
 //            robot.driveUntilDistance(35, 0.3, 1);
 
 //            robot.driveStraightByDistance(direction_forward, distFoundMove[skystonePostition - 1], 0.8);
 
             robot.driveStraightByGyro(direction_forward, distFoundMove[skystonePostition - 1], 1, false);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 150);
 
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 0.5);
             robot.dropSkyStone();
+            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 150);
+
 
             robot.originalPosition();
 
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 0.5);
 //            robot.driveStraightByDistance(direction_backward, distBackMove[skystonePostition - 1], 0.8);
 
-            robot.driveStraightByGyro(direction_backward, distBackMove[skystonePostition - 1], 0.8, false);
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 0.5);
+            robot.driveStraightByGyro(direction_backward, distBackMove[skystonePostition - 1], 1, false);
+            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
 
             robot.driveUntilDistance(20, 0.3, 1);
 
             robot.pickupSkyStone();
-            sleep(500);
+            sleep(100);
 
 //            robot.driveUntilDistance(35, 0.3, 1);
 //            robot.driveStraightByDistance(direction_forward, distBackMove[skystonePostition - 1], 0.8);
 
-            robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1] + 300, 1, false);
+            robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1], 1, false);
 
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 0.5);
             robot.dropSkyStone();
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 100, 0.5);
 
-            robot.driveStraightByDistance(direction_backward, 1300, 1);
+            robot.driveStraightByDistance(direction_forward, 300, 1);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 1);
+            robot.dragFoundation();
+            robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 300, 0.3, false);
+            robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 700, 1, false);
 
-        }
+
+    }
 
 
     }

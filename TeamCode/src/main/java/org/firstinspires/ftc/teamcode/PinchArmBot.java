@@ -13,7 +13,7 @@ public class PinchArmBot extends FourWheelsDriveBot {
     static final double PINCH_ARM_FOLD = 0.3;
     static final double PINCH_ARM_VERTICAL = 0.55;
     static final double PINCH_ARM_DOWN1 = 0.85;
-    static final double PINCH_ARM_DOWN2 = 0.7;
+    static final double PINCH_ARM_DOWN2 = 0.8;
     static final double PINCH_PINCH = 0.8;
     static final double PINCH_RELEASE = 0.5;
     static final double FOUNDATION_DRAG = 0.9;
@@ -49,10 +49,10 @@ public class PinchArmBot extends FourWheelsDriveBot {
         RobotLog.d(String.format("Before Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
         servoArm.setPosition(PINCH_ARM_DOWN1);
         RobotLog.d(String.format("After Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(1000);
+        opMode.sleep(700);
         servoPinch.setPosition(PINCH_PINCH);
         RobotLog.d(String.format("After Pinch: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(500);
+        opMode.sleep(300);
         servoArm.setPosition(PINCH_ARM_FOLD);
         RobotLog.d(String.format("After Fold: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
 //        opMode.idle();
@@ -61,7 +61,7 @@ public class PinchArmBot extends FourWheelsDriveBot {
 
     public void dropSkyStone(){
         servoArm.setPosition(PINCH_ARM_DOWN2);
-        opMode.sleep(1000);
+        opMode.sleep(700);
         servoPinch.setPosition(PINCH_RELEASE);
         opMode.sleep(500);
         servoArm.setPosition(PINCH_ARM_FOLD);
@@ -87,6 +87,7 @@ public class PinchArmBot extends FourWheelsDriveBot {
 
     public void dragFoundation() {
         servoArm.setPosition(FOUNDATION_DRAG);
+        servoPinch.setPosition(0.3);
         opMode.sleep(1000);
     }
 
