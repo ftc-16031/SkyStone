@@ -193,4 +193,71 @@ public class GyroBot extends CameraBot {
         rightRear.setPower(0);
         opMode.sleep(500);
     }
+    public void specialGyroDrive(int direction, double distance, double maxPower, boolean useCurrentAngle) {
+        if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){
+            String msg = String.format("Unaccepted direction value (%d) for driveStraightByGyro()", direction);
+            print(msg);
+            return;
+        }
+        double originalAngle;
+        if (useCurrentAngle) {
+            originalAngle = getAngle();
+        } else {
+            originalAngle = startAngle;
+        }
+
+        // distance (in mm) = revolution * pi * diameter (100 mm)
+        int distanceTicks = (int) (distance / 3.1415 / 100 * DRIVING_MOTOR_TICK_COUNT);
+        int startingPosition = leftFront.getCurrentPosition();
+        MiniPID pid = new MiniPID(0.03, 0, 0);
+        pid.setOutputLimits(1);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double angle;
+        angle = getAngle();
+        double adjustPower = pid.getOutput(angle, originalAngle);
+        int currentPosition = leftFront.getCurrentPosition();
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+            RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
+            switch (direction){
+                case DIRECTION_FORWARD:
+                    leftFront.setPower(maxPower - adjustPower);
+                    rightFront.setPower(maxPower + adjustPower);
+                    leftRear.setPower(maxPower - adjustPower);
+                    rightRear.setPower(maxPower + adjustPower);
+                    break;
+                case DIRECTION_BACKWARD:
+                    leftFront.setPower(- maxPower - adjustPower);
+                    rightFront.setPower(- maxPower + adjustPower);
+                    leftRear.setPower(- maxPower - adjustPower);
+                    rightRear.setPower(- maxPower + adjustPower);
+                    break;
+                case DIRECTION_LEFT:
+                    leftFront.setPower(- maxPower - adjustPower);
+                    rightFront.setPower(+ maxPower + adjustPower);
+                    leftRear.setPower(+ maxPower - adjustPower);
+                    rightRear.setPower(- maxPower + adjustPower);
+                    break;
+                case DIRECTION_RIGHT:
+                    leftFront.setPower(+ maxPower - adjustPower);
+                    rightFront.setPower(- maxPower + adjustPower);
+                    leftRear.setPower(- maxPower - adjustPower);
+                    rightRear.setPower(+ maxPower + adjustPower);
+                    break;
+            }
+            opMode.sleep(50);
+            angle = getAngle();
+            adjustPower = pid.getOutput(angle, originalAngle);
+            currentPosition = leftFront.getCurrentPosition();
+
+            maxPower = maxPower + 0.01;
+        }
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+        opMode.sleep(500);
+    }
 }
