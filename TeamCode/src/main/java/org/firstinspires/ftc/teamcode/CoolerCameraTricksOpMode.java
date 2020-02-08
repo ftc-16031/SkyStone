@@ -20,13 +20,13 @@ public class CoolerCameraTricksOpMode extends LinearOpMode {
 
         waitForStart();
 
-        robot.driveStraightByDistance( robot.DIRECTION_RIGHT, 500, 0.3);
+        robot.driveStraightByDistance( robot.DIRECTION_RIGHT, 500, 0.3, false);
 
         robot.driveUntilSeeSkystone(-0.08, true);
 
-        robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 200, 0.3);
+        robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 200, 0.3, false);
 
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 400, 0.3);
+        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 400, 0.3, false);
     }
 
 }

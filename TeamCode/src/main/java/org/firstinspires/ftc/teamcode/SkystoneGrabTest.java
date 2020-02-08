@@ -25,30 +25,30 @@ public class SkystoneGrabTest extends LinearOpMode {
         waitForStart();
 
         setDirection();
-        robot.driveStraightByDistance( robot.DIRECTION_LEFT, 450, 0.7);
+        robot.driveStraightByDistance( robot.DIRECTION_LEFT, 450, 0.7, false);
         robot.opMode.sleep(1800);
         if (robot.isSkystoneDetected()) {
-            robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 170, 0.6);
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 0.5);
+            robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 170, 0.6, false);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 0.5, false);
             robot.pickupSkyStone();
             robot.opMode.sleep(5000);
             robot.dropSkyStone();
             robot.originalPosition();
         }
         else {
-            robot.driveStraightByDistance(direction_forward, 200, 0.6);
+            robot.driveStraightByDistance(direction_forward, 200, 0.6, false);
             robot.opMode.sleep(1800);
             if (robot.isSkystoneDetected()) {
-                robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 170, 0.6);
-                robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 0.5);
+                robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 170, 0.6, false);
+                robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 0.5, false);
                 robot.pickupSkyStone();
                 robot.opMode.sleep(5000);
                 robot.dropSkyStone();
                 robot.originalPosition();
             }
             else {
-                robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 300, 0.6);
-                robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 0.5);
+                robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 300, 0.6, false);
+                robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 0.5, false);
                 robot.pickupSkyStone();
                 robot.opMode.sleep(5000);
                 robot.dropSkyStone();

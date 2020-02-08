@@ -202,12 +202,12 @@ public class FourWheelsDriveBot
         this.opMode.sleep(3000);
 
     }
-    public void driveStraightByDistance(int direction, double distance){
+    public void driveStraightByDistance(int direction, double distance, boolean drift){
         // default max power 0.5
-        driveStraightByDistance(direction, distance, 0.5);
+        driveStraightByDistance(direction, distance, 0.5, drift);
     }
 
-    public void driveStraightByDistance(int direction, double distance, double maxPower){
+    public void driveStraightByDistance(int direction, double distance, double maxPower, boolean drift){
         // distance (in mm) = revolution * pi * diameter (100 mm)
         int target = (int)(distance / 3.1415 / 100 * DRIVING_MOTOR_TICK_COUNT);
         int startingPosition = leftFront.getCurrentPosition();
@@ -273,10 +273,14 @@ public class FourWheelsDriveBot
                     rightRear.getCurrentPosition()));
         }
         // Stop all motion;
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftRear.setPower(0);
-        rightRear.setPower(0);
+        if (drift) {
+            //don't stop
+        } else {
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            leftRear.setPower(0);
+            rightRear.setPower(0);
+        }
         print(String.format("Arrive target : %7d @ leftFront: %7d, rightFront:%7d, leftRear:%7d, rightRear:%7d",
                 target,
                 leftFront.getCurrentPosition(),
@@ -285,7 +289,7 @@ public class FourWheelsDriveBot
                 rightRear.getCurrentPosition()));
     }
 
-    public void driveByDistanceWithAcceleration(int direction, double distance, double maxPower, int accelerationSteps){
+    public void driveByDistanceWithAcceleration(int direction, double distance, double maxPower, int accelerationSteps, boolean drift){
         // distance (in mm) = revolution * pi * diameter (100 mm)
         int target = (int)(distance / 3.1415 / 100 * DRIVING_MOTOR_TICK_COUNT);
         int startingPosition = leftFront.getCurrentPosition();
@@ -370,10 +374,14 @@ public class FourWheelsDriveBot
             }
         }
         // Stop all motion;
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftRear.setPower(0);
-        rightRear.setPower(0);
+        if (drift) {
+            //don't stop
+        } else {
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            leftRear.setPower(0);
+            rightRear.setPower(0);
+        }
         print(String.format("Arrive target : %7d @ leftFront: %7d, rightFront:%7d, leftRear:%7d, rightRear:%7d",
                 realTarget,
                 leftFront.getCurrentPosition(),
