@@ -71,7 +71,7 @@ public class RedStreet extends LinearOpMode {
             robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 1);
             robot.dragFoundation();
             robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 300, 0.3, false);
-            robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 700, 1, false);
+            robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 600, 0.4, false);
 
 
     }
