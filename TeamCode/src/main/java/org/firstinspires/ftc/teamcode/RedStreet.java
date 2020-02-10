@@ -57,13 +57,14 @@ public class RedStreet extends LinearOpMode {
 
             robot.driveUntilDistance(20, 0.3, 1);
 
-            robot.pickupSkyStone();
+            robot.pickupcloseSkyStone();
             sleep(100);
 
 //            robot.driveUntilDistance(35, 0.3, 1);
 //            robot.driveStraightByDistance(direction_forward, distBackMove[skystonePostition - 1], 0.8);
 
             robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1], 1, false);
+            robot.startExtension();
 
             robot.dropSkyStone();
 
@@ -71,7 +72,8 @@ public class RedStreet extends LinearOpMode {
             robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 1);
             robot.dragFoundation();
             sleep(300);
-            robot.specialGyroDrive(robot.DIRECTION_RIGHT, 900, 0.2, false);
+            robot.stopExtension();
+            robot.specialGyroDrive(robot.DIRECTION_RIGHT, 1300, 0.3, false);
 
     }
 

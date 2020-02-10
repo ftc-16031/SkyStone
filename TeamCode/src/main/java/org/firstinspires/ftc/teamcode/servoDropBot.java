@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class servoDropBot extends ButtArmBot{
+public class servoDropBot extends ScoopArmBot{
     public Servo servoDrop = null;
     double position = 0.0;
 

@@ -28,8 +28,7 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.manualDropSkystone(gamepad1.dpad_right);
             robot.manualArmRelease(gamepad2.b);
             robot.manualArmPinch(gamepad2.x);
-
-            robot.toggleButtArm(gamepad2.right_stick_button, gamepad2.left_stick_button);
+            robot.manualExtension(gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_down);
             robot.toggleServoDrop(gamepad2.y, gamepad2.a);
 
         }

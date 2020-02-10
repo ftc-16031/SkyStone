@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
-public class PinchArmBot extends FourWheelsDriveBot {
+public class PinchArmBot extends ParkArmBot {
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   500;     // period of each cycle
     static final double MAX_POS     =  1.0;     // Maximum rotational position
@@ -15,6 +15,7 @@ public class PinchArmBot extends FourWheelsDriveBot {
     static final double PINCH_ARM_DOWN1 = 0.85;
     static final double PINCH_ARM_DOWN2 = 0.8;
     static final double PINCH_ARM_DOWN3 = 0.75;
+    static final double PINCH_INIT = 0.6;
     static final double PINCH_PINCH = 0.8;
     static final double PINCH_RELEASE = 0.5;
     static final double FOUNDATION_DRAG = 1;
@@ -40,7 +41,7 @@ public class PinchArmBot extends FourWheelsDriveBot {
         servoPinch = hwMap.servo.get("servoPinch");
 
         servoArm.setPosition(PINCH_ARM_FOLD);
-        servoPinch.setPosition(PINCH_RELEASE);
+        servoPinch.setPosition(PINCH_INIT);
         RobotLog.d(String.format("After Init : ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
     }
 
