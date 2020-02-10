@@ -50,10 +50,10 @@ public class PinchArmBot extends FourWheelsDriveBot {
         RobotLog.d(String.format("Before Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
         servoArm.setPosition(PINCH_ARM_DOWN1);
         RobotLog.d(String.format("After Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(700);
+        opMode.sleep(900);
         servoPinch.setPosition(PINCH_PINCH);
         RobotLog.d(String.format("After Pinch: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(300);
+        opMode.sleep(500);
         servoArm.setPosition(PINCH_ARM_FOLD);
         RobotLog.d(String.format("After Fold: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
 //        opMode.idle();
@@ -63,7 +63,7 @@ public class PinchArmBot extends FourWheelsDriveBot {
         RobotLog.d(String.format("Before Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
         servoArm.setPosition(PINCH_ARM_DOWN1);
         RobotLog.d(String.format("After Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(1000);
+        opMode.sleep(900);
         servoPinch.setPosition(PINCH_PINCH);
         RobotLog.d(String.format("After Pinch: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
         opMode.sleep(500);
@@ -83,9 +83,9 @@ public class PinchArmBot extends FourWheelsDriveBot {
     }
     public void dropfarSkystone(){
         servoArm.setPosition(PINCH_ARM_DOWN3);
-        opMode.sleep(700);
-        servoPinch.setPosition(PINCH_RELEASE);
         opMode.sleep(500);
+        servoPinch.setPosition(PINCH_RELEASE);
+        opMode.sleep(300);
         servoArm.setPosition(PINCH_ARM_FOLD);
         return;
     }
