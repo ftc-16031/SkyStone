@@ -117,7 +117,7 @@ public class coolcameratricks extends LinearOpMode {
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
-                robot.driveStraightByDistance( robot.DIRECTION_LEFT, 200);
+                robot.driveStraightByDistance( robot.DIRECTION_LEFT, 200, false);
 
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since

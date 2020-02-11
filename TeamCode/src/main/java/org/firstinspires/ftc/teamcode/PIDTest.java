@@ -19,6 +19,28 @@ public class PIDTest extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.a) {
                 robot.goBacktoStartAngle();
+<<<<<<< Updated upstream
+=======
+                sleep(1000);
+                robot.getDeltaAngle();
+            }
+            else if (gamepad1.b) {
+                robot.goBacktoStartAnglePID();
+                sleep(1000);
+                robot.getDeltaAngle();
+            }
+            else if (gamepad1.dpad_up) {
+                robot.driveStraightByGyro(FourWheelsDriveBot.DIRECTION_FORWARD, 1000, 0.8, false, false);
+            }
+            else if (gamepad1.dpad_down) {
+                robot.driveStraightByGyro(FourWheelsDriveBot.DIRECTION_BACKWARD, 1000, 0.8, false, false);
+            }
+            else if (gamepad1.dpad_left) {
+                robot.driveStraightByGyro(FourWheelsDriveBot.DIRECTION_LEFT, 1000, 0.5, false, false);
+            }
+            else if (gamepad1.dpad_right) {
+                robot.driveStraightByGyro(FourWheelsDriveBot.DIRECTION_RIGHT, 1000, 0.5, false, false);
+>>>>>>> Stashed changes
             }
         }
 

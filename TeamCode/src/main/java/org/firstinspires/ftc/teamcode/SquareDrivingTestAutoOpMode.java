@@ -20,10 +20,10 @@ public class SquareDrivingTestAutoOpMode extends LinearOpMode {
 
         waitForStart();
 
-        robot.driveStraightByDistance( robot.DIRECTION_FORWARD, 200);
-        robot.driveStraightByDistance( robot.DIRECTION_LEFT, 200);
-        robot.driveStraightByDistance( robot.DIRECTION_BACKWARD, 200);
-        robot.driveStraightByDistance( robot.DIRECTION_RIGHT, 200);
+        robot.driveStraightByDistance( robot.DIRECTION_FORWARD, 200, false);
+        robot.driveStraightByDistance( robot.DIRECTION_LEFT, 200, false);
+        robot.driveStraightByDistance( robot.DIRECTION_BACKWARD, 200, false);
+        robot.driveStraightByDistance( robot.DIRECTION_RIGHT, 200, false);
     }
 
 }

@@ -32,8 +32,12 @@ public class ManualDriveOpModeRedWall extends LinearOpMode {
             robot.manualFoundationReset(gamepad1.dpad_up);
             robot.manualPickupSkystone(gamepad1.dpad_left);
             robot.manualDropSkystone(gamepad1.dpad_right);
-            robot.toggleButtArm(gamepad1.right_stick_button, gamepad1.left_stick_button);
-            robot.toggleServoDrop(gamepad2.a, gamepad2.b);
+
+            robot.manualArmRelease(gamepad2.b);
+            robot.manualArmPinch(gamepad2.x);
+            robot.toggleButtArm(gamepad2.right_stick_button, gamepad2.left_stick_button);
+            robot.toggleServoDrop(gamepad2.a, gamepad2.y);
+
         }
     }
 }
