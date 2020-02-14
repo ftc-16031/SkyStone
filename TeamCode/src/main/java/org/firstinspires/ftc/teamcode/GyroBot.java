@@ -258,6 +258,5 @@ public class GyroBot extends CameraBot {
         rightFront.setPower(0);
         leftRear.setPower(0);
         rightRear.setPower(0);
-        opMode.sleep(500);
     }
 }

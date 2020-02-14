@@ -60,19 +60,7 @@ public class PinchArmBot extends ParkArmBot {
 //        opMode.idle();
         return;
     }
-    public void pickupcloseSkyStone(){
-        RobotLog.d(String.format("Before Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        servoArm.setPosition(PINCH_ARM_DOWN1);
-        RobotLog.d(String.format("After Down: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(900);
-        servoPinch.setPosition(PINCH_PINCH);
-        RobotLog.d(String.format("After Pinch: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-        opMode.sleep(500);
-        servoArm.setPosition(PINCH_ARM_FOLD);
-        RobotLog.d(String.format("After Fold: ARM POS : %f, PINCH POS : %f", servoArm.getPosition(), servoPinch.getPosition()));
-//        opMode.idle();
-        return;
-    }
+
 
     public void dropSkyStone(){
         servoArm.setPosition(PINCH_ARM_DOWN2);
@@ -82,7 +70,7 @@ public class PinchArmBot extends ParkArmBot {
         servoArm.setPosition(PINCH_ARM_FOLD);
         return;
     }
-    public void dropfarSkystone(){
+    public void dropFarSkystone(){
         servoArm.setPosition(PINCH_ARM_DOWN3);
         opMode.sleep(500);
         servoPinch.setPosition(PINCH_RELEASE);
