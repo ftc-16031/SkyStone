@@ -15,8 +15,8 @@ public class RedStreet extends LinearOpMode {
     int direction_forward, direction_backward;
 
     int[] distFirstMove = new int[]{300, 100, -100};
-    int[] distFoundMove = new int[]{1300, 1500, 1700};
-    int[] distBackMove = new int[]{1850, 2050, 1250};
+    int[] distFoundMove = new int[]{1200, 1500, 1700};
+    int[] distBackMove = new int[]{1750, 2050, 1250};
 
     int skystonePostition;
     protected void setDirection(){
@@ -74,6 +74,7 @@ public class RedStreet extends LinearOpMode {
             sleep(300);
             robot.stopExtension();
             robot.specialGyroDrive(robot.DIRECTION_RIGHT, 1300, 0.3, false);
+
 
     }
 
