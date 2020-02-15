@@ -44,11 +44,11 @@ public class BlueStreet extends LinearOpMode {
 
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200);
 
-        robot.dropFarSkystone();
-
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200);
+        robot.dropSkyStone();
 
         robot.originalPosition();
+
+        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200);
 
         robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
 
@@ -62,13 +62,15 @@ public class BlueStreet extends LinearOpMode {
 
         sleep(100);
 
-        robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1], 1, false);
+        robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1] + 100, 1, false);
 
         robot.startExtension();
 
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 100, 1);
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 1);
 
         robot.dropSkyStone();
+
+        robot.originalPosition();
 
         robot.driveStraightByDistance(direction_forward, 300, 1);
 
@@ -80,21 +82,23 @@ public class BlueStreet extends LinearOpMode {
 
         robot.stopExtension();
 
-        robot.specialGyroDrive(robot.DIRECTION_RIGHT, 1500, 0.3, false);
+        robot.specialGyroDrive(robot.DIRECTION_RIGHT, 800, 0.1, false);
 
-        robot.leftFront.setPower(1);
+        robot.leftFront.setPower(-1);
 
-        robot.rightFront.setPower(-1);
+        robot.rightFront.setPower(1);
 
-        robot.leftRear.setPower(1);
+        robot.leftRear.setPower(-1);
 
-        robot.rightRear.setPower(-1);
+        robot.rightRear.setPower(1);
 
-        robot.opMode.sleep(500);
+        robot.opMode.sleep(1200);
 
         robot.originalPosition();
 
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 300, 1);
+
+        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 400, 1);
         }
 
 

@@ -13,10 +13,8 @@ public class DistanceTest extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
         while (opModeIsActive()) {
-//            robot.getDistanceBack();
-//            robot.getDistanceFront();
-            robot.getDistanceOther();
-
+            robot.getDistanceBack();
+            robot.getDistanceFront();
 
         }
     }

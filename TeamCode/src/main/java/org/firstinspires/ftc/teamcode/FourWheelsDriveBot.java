@@ -261,7 +261,7 @@ public class FourWheelsDriveBot
         RobotLog.d(String.format("Set direction and power!"));
 
         while (this.opMode.opModeIsActive() && rightFront.isBusy()) {
-            opMode.sleep(50);
+            opMode.sleep(10);
         }
         RobotLog.d(String.format("Stopping all motion!"));
         // Stop all motion;

@@ -252,7 +252,7 @@ public class GyroBot extends CameraBot {
             adjustPower = pid.getOutput(angle, originalAngle);
             currentPosition = leftFront.getCurrentPosition();
 
-            maxPower = maxPower + 0.01;
+            maxPower = maxPower + 0.03;
         }
         leftFront.setPower(0);
         rightFront.setPower(0);

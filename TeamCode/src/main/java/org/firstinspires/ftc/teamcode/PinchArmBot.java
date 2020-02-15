@@ -67,17 +67,9 @@ public class PinchArmBot extends ParkArmBot {
         opMode.sleep(700);
         servoPinch.setPosition(PINCH_RELEASE);
         opMode.sleep(500);
-        servoArm.setPosition(PINCH_ARM_FOLD);
         return;
     }
-    public void dropFarSkystone(){
-        servoArm.setPosition(PINCH_ARM_DOWN3);
-        opMode.sleep(500);
-        servoPinch.setPosition(PINCH_RELEASE);
-        opMode.sleep(300);
-        servoArm.setPosition(PINCH_ARM_FOLD);
-        return;
-    }
+
 
     public void resetArm(){
         servoPinch.setPosition(PINCH_RELEASE);
@@ -89,7 +81,7 @@ public class PinchArmBot extends ParkArmBot {
 
     public void originalPosition(){
         servoArm.setPosition(PINCH_ARM_FOLD);
-        servoPinch.setPosition(PINCH_RELEASE);
+        servoPinch.setPosition(PINCH_INIT);
     }
 
     public void armVertical(){

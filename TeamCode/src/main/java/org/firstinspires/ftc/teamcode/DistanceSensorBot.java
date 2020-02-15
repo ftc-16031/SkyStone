@@ -47,7 +47,6 @@ public class DistanceSensorBot extends PinchArmBot {
 
     protected DistanceSensor frontSensor = null;
     protected DistanceSensor backSensor = null;
-    protected DistanceSensor otherSensor = null;
 
     public DistanceSensorBot(LinearOpMode opMode) {
         super(opMode);
@@ -60,7 +59,6 @@ public class DistanceSensorBot extends PinchArmBot {
         // initialize the sensor for skystone quarry detection
         frontSensor = hwMap.get(DistanceSensor.class, "distance_front");
         backSensor = hwMap.get(DistanceSensor.class, "distance_back");
-        otherSensor = hwMap.get(DistanceSensor.class, "distance_other");
     }
 
     public double getDistanceFront() {
@@ -91,19 +89,6 @@ public class DistanceSensorBot extends PinchArmBot {
         return backSensor.getDistance(DistanceUnit.CM);
     }
 
-    public double getDistanceOther() {
-        opMode.telemetry.addData("range", String.format("%.01f cm", otherSensor.getDistance(DistanceUnit.CM)));
-
-        // you can also cast this to a Rev2mDistanceSensor if you want to use added
-        // methods associated with the Rev2mDistanceSensor class.
-        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) otherSensor;
-        // Rev2mDistanceSensor specific methods.
-        opMode.telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
-        opMode.telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
-
-        opMode.telemetry.update();
-        return otherSensor.getDistance(DistanceUnit.CM);
-    }
 
     public void driveUntilDistance(double distance, double power, int sensor) {
 
