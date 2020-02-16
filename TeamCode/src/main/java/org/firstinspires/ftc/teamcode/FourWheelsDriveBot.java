@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -24,10 +25,10 @@ public class FourWheelsDriveBot
     static final int DIRECTION_RQUARTER = 5;
     static final int DIRECTION_LQUARTER = 6;
 
-    public DcMotor leftFront = null;
-    public DcMotor rightFront = null;
-    public DcMotor leftRear = null;
-    public DcMotor rightRear = null;
+    public DcMotorEx leftFront = null;
+    public DcMotorEx rightFront = null;
+    public DcMotorEx leftRear = null;
+    public DcMotorEx rightRear = null;
 
 
 
@@ -112,10 +113,10 @@ public class FourWheelsDriveBot
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        leftFront = hwMap.get(DcMotor.class, "leftFront");
-        rightFront = hwMap.get(DcMotor.class, "rightFront");
-        leftRear = hwMap.get(DcMotor.class, "leftRear");
-        rightRear = hwMap.get(DcMotor.class, "rightRear");
+        leftFront = (DcMotorEx) hwMap.get(DcMotor.class, "leftFront");
+        rightFront = (DcMotorEx) hwMap.get(DcMotor.class, "rightFront");
+        leftRear = (DcMotorEx) hwMap.get(DcMotor.class, "leftRear");
+        rightRear = (DcMotorEx) hwMap.get(DcMotor.class, "rightRear");
         rightRear.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
 

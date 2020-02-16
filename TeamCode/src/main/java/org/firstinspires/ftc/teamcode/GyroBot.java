@@ -13,6 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import com.stormbots.MiniPID;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+
 public class GyroBot extends CameraBot {
 
     BNO055IMU imu;
@@ -150,6 +152,10 @@ public class GyroBot extends CameraBot {
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setZeroPowerBehavior(BRAKE);
+        rightFront.setZeroPowerBehavior(BRAKE);
+        leftRear.setZeroPowerBehavior(BRAKE);
+        rightRear.setZeroPowerBehavior(BRAKE);
         double angle;
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
@@ -215,6 +221,10 @@ public class GyroBot extends CameraBot {
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFront.setZeroPowerBehavior(BRAKE);
+        rightFront.setZeroPowerBehavior(BRAKE);
+        leftRear.setZeroPowerBehavior(BRAKE);
+        rightRear.setZeroPowerBehavior(BRAKE);
         double angle;
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
