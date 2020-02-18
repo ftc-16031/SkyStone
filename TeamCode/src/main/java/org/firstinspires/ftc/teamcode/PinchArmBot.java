@@ -12,7 +12,7 @@ public class PinchArmBot extends ParkArmBot {
     static final double MIN_POS     =  0.0;     // Minimum rotational position
     static final double PINCH_ARM_FOLD = 0.3;
     static final double PINCH_ARM_VERTICAL = 0.55;
-    static final double PINCH_ARM_DOWN1 = 0.85;
+    static final double PINCH_ARM_DOWN1 = 0.9;
     static final double PINCH_ARM_DOWN2 = 0.8;
     static final double PINCH_ARM_DOWN3 = 0.75;
     static final double PINCH_INIT = 0.6;

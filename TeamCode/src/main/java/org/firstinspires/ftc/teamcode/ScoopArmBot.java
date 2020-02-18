@@ -43,11 +43,11 @@ public class ScoopArmBot extends PinchArmBot {
             servoScoop.setPosition(0.1);
             servoArm.setPosition(PINCH_ARM_FOLD);
         } else if (buttonY) {
-            servoScoop.setPosition(0.28);
+            servoScoop.setPosition(0.25);
             opMode.sleep(600);
             servoArm.setPosition(PINCH_ARM_FOLD);
         } else if (buttonX) {
-            servoScoop.setPosition(0.1);
+            servoScoop.setPosition(0.5);
             servoArm.setPosition(PINCH_ARM_VERTICAL);
         }
     }

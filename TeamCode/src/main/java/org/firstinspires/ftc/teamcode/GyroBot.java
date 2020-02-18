@@ -18,7 +18,7 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 public class GyroBot extends CameraBot {
 
     BNO055IMU imu;
-    double startAngle, power = 0.15;
+    double startAngle, power = 0.9;
 
 
     public GyroBot(LinearOpMode opMode) {
@@ -103,26 +103,26 @@ public class GyroBot extends CameraBot {
 
     }
 
-    public void goBacktoStartAnglePID() {
+    public void goBacktoStartAnglePID(int degrees) {
 
-        MiniPID pid = new MiniPID(0.03, 0, 0);
-        pid.setOutputLimits(0.5);
+        MiniPID pid = new MiniPID(0.05, 0, 0);
+        pid.setOutputLimits(0.9);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double angle;
         angle = getAngle();
-        double power = pid.getOutput(angle, startAngle);
+        double power = pid.getOutput(angle, startAngle + degrees);
         while (Math.abs(power) > 0.06) {
-            RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
+            RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle + degrees, power));
             leftFront.setPower(-power);
             rightFront.setPower(power);
             leftRear.setPower(-power);
             rightRear.setPower(power);
             opMode.sleep(50);
             angle = getAngle();
-            power = pid.getOutput(angle, startAngle);
+            power = pid.getOutput(angle, startAngle + degrees);
         };
         leftFront.setPower(0);
         rightFront.setPower(0);

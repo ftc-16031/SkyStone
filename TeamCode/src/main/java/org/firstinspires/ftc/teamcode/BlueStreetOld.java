@@ -19,7 +19,6 @@ public class BlueStreetOld extends LinearOpMode {
     protected void setDirection(){
         direction_backward = robot.DIRECTION_FORWARD;
         direction_forward = robot.DIRECTION_BACKWARD;
-
     }
 
     @Override
