@@ -67,6 +67,8 @@ public class RedStreetOld extends LinearOpMode {
 
         robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 100, 0.5);
 
+        robot.originalPosition();
+
         robot.driveStraightByDistance(direction_backward, 1300, 1);
     }
 
