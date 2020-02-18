@@ -14,7 +14,7 @@ public class PinchArmBot extends ParkArmBot {
     static final double PINCH_ARM_VERTICAL = 0.55;
     static final double PINCH_ARM_DOWN1 = 0.9;
     static final double PINCH_ARM_DOWN2 = 0.8;
-    static final double PINCH_ARM_DOWN3 = 0.75;
+    static final double PINCH_ARM_DOWN3 = 0.7;
     static final double PINCH_INIT = 0.6;
     static final double PINCH_PINCH = 0.8;
     static final double PINCH_RELEASE = 0.5;
@@ -64,6 +64,14 @@ public class PinchArmBot extends ParkArmBot {
 
     public void dropSkyStone(){
         servoArm.setPosition(PINCH_ARM_DOWN2);
+        opMode.sleep(700);
+        servoPinch.setPosition(PINCH_RELEASE);
+        opMode.sleep(500);
+        return;
+    }
+
+    public void dropSecondSkyStone(){
+        servoArm.setPosition(PINCH_ARM_DOWN3);
         opMode.sleep(700);
         servoPinch.setPosition(PINCH_RELEASE);
         opMode.sleep(500);

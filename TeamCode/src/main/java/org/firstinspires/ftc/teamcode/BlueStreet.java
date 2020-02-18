@@ -65,7 +65,7 @@ public class BlueStreet extends LinearOpMode {
 
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 1);
 
-        robot.dropSkyStone();
+        robot.dropSecondSkyStone();
 
         robot.originalPosition();
 
