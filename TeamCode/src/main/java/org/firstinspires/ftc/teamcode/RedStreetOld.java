@@ -33,7 +33,7 @@ public class RedStreetOld extends LinearOpMode {
 
         robot.driveUntilDistance(20, 0.3, 1);
 
-        robot.driveStraightByDistance(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1]);
+        robot.driveStraightByGyro(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1], 0.5, false);
 
         robot.pickupSkyStone();
 
