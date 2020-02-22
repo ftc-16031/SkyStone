@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -26,6 +25,11 @@ public class PIDTest extends LinearOpMode {
                 robot.goBacktoStartAnglePID( 0);
                 sleep(1000);
                 robot.getDeltaAngle();
+            }
+            else if (gamepad1.x) {
+                do {
+                    robot.goBacktoStartAnglePID(0);
+                } while (! gamepad1.y);
             }
             else if (gamepad1.dpad_up) {
                 robot.driveStraightByGyro(FourWheelsDriveBot.DIRECTION_FORWARD, 1000, 0.8, false);
