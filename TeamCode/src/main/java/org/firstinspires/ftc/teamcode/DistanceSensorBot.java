@@ -108,7 +108,7 @@ public class DistanceSensorBot extends PinchArmBot {
                     RobotLog.d(String.format("DRIVING! Distance: %.1f", frontSensor.getDistance(DistanceUnit.CM)));
 
                 }
-                while (getDistanceFront() > distance);
+                while (this.opMode.opModeIsActive() && getDistanceFront() > distance);
             } else {
 
                 do {
@@ -118,7 +118,7 @@ public class DistanceSensorBot extends PinchArmBot {
                     rightRear.setPower(power);
                     RobotLog.d(String.format("DRIVING! Distance: %.1f", frontSensor.getDistance(DistanceUnit.CM)));
                 }
-                while (getDistanceFront() < distance);
+                while (this.opMode.opModeIsActive() && getDistanceFront() < distance);
             }
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -136,7 +136,7 @@ public class DistanceSensorBot extends PinchArmBot {
                     rightRear.setPower(- power);
                     RobotLog.d(String.format("DRIVING! Distance: %.1f", backSensor.getDistance(DistanceUnit.CM)));
                 }
-                while (getDistanceBack() > distance);
+                while (this.opMode.opModeIsActive() && getDistanceBack() > distance);
             } else {
 
                 do {
@@ -146,7 +146,7 @@ public class DistanceSensorBot extends PinchArmBot {
                     rightRear.setPower(power);
                     RobotLog.d(String.format("DRIVING! Distance: %.1f", backSensor.getDistance(DistanceUnit.CM)));
                 }
-                while (getDistanceFront() < distance);
+                while (this.opMode.opModeIsActive() && getDistanceFront() < distance);
             }
             leftFront.setPower(0);
             rightFront.setPower(0);

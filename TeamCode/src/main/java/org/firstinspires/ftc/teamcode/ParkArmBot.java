@@ -19,14 +19,23 @@ public class ParkArmBot extends FourWheelsDriveBot{
 
         parkArm = hwMap.crservo.get("parkArm");
         parkArm.setDirection(DcMotorSimple.Direction.FORWARD);
-
     }
 
-    public void startExtension() {
-        parkArm.setPower(-1);
+    public void startExtension(int direction) {
+        if (direction == 0) {
+            parkArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        } else if (direction == 1) {
+            parkArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+        parkArm.setPower(- 1);
     }
 
-    public void stopExtension () {
+    public void stopExtension (int direction) {
+        if (direction == 0) {
+            parkArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        } else if (direction == 1) {
+            parkArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
         parkArm.setPower(0);
     }
 
@@ -36,13 +45,13 @@ public class ParkArmBot extends FourWheelsDriveBot{
 
     public void manualExtension (boolean dpadLeft, boolean dpadRight, boolean dpadDown) {
         if (dpadLeft) {
-            startExtension();
+            startExtension(0);
         }
         if (dpadRight) {
             unextend();
         }
         if (dpadDown) {
-            stopExtension();
+            stopExtension(0);
         }
     }
 }

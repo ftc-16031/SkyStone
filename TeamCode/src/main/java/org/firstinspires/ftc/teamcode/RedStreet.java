@@ -12,14 +12,13 @@ public class RedStreet extends LinearOpMode {
     int direction_forward, direction_backward;
 
     int[] distFirstMove = new int[]{300, 100, -100};
-    int[] distFoundMove = new int[]{1600, 1900, 2100};
-    int[] distBackMove = new int[]{2100, 2350, 1550};
+    int[] distFoundMove = new int[]{1500, 1750, 1900};
+    int[] distBackMove = new int[]{2125, 2225, 1650};
 
     int skystonePostition;
     protected void setDirection(){
         direction_forward = robot.DIRECTION_FORWARD;
         direction_backward = robot.DIRECTION_BACKWARD;
-
     }
 
     @Override
@@ -54,51 +53,43 @@ public class RedStreet extends LinearOpMode {
 
         robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
 
-        robot.driveUntilDistance(20, 0.3, 1);
+        robot.driveUntilDistance(20, 0.3, 0);
 
         robot.pickupSkyStone();
 
         sleep(100);
 
-        robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1] + 200, 1, false);
+        robot.startExtension(0);
 
-        robot.startExtension();
+        robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1] + 250, 1, false);
 
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 1);
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 250, 1);
 
-        robot.dropSkyStone();
-
+        robot.dropSecondSkyStone();
+        
         robot.originalPosition();
 
-        robot.driveStraightByDistance(direction_forward, 200, 1);
+        robot.driveStraightByDistance(direction_forward, 300, 1);
 
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 100, 1);
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 90, 0.7);
 
         robot.dragFoundation();
 
         sleep(300);
 
-        robot.stopExtension();
+        robot.stopExtension(0);
 
-        robot.specialGyroDrive(robot.DIRECTION_RIGHT, 900, 0.1, false);
+        robot.specialGyroDrive(robot.DIRECTION_RIGHT, 1200, 0.3, false);
 
-        robot.leftFront.setPower(1);
-
-        robot.rightFront.setPower(-1);
-
-        robot.leftRear.setPower(1);
-
-        robot.rightRear.setPower(-1);
-
-        robot.opMode.sleep(1200);
+        robot.goBacktoStartAnglePID(-90);
 
         robot.originalPosition();
 
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 300, 1);
 
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 400, 1);
+        robot.driveCurveByDistance(robot.DIRECTION_RIGHT, 1000, -0.3, 1);
     }
 
 
-    }
+}
 

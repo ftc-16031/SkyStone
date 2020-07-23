@@ -18,7 +18,7 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 public class GyroBot extends CameraBot {
 
     BNO055IMU imu;
-    double startAngle, power = 0.15;
+    double startAngle, power = 0.9;
 
 
     public GyroBot(LinearOpMode opMode) {
@@ -80,7 +80,7 @@ public class GyroBot extends CameraBot {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double delta = getDeltaAngle();
 
-        while (Math.abs(delta) > 2) {
+        while (this.opMode.opModeIsActive() && Math.abs(delta) > 2) {
             if (delta < 0) {
                 // turn clockwize
                 direction = -1;
@@ -103,26 +103,26 @@ public class GyroBot extends CameraBot {
 
     }
 
-    public void goBacktoStartAnglePID() {
+    public void goBacktoStartAnglePID(int degrees) {
 
-        MiniPID pid = new MiniPID(0.03, 0, 0);
-        pid.setOutputLimits(0.5);
+        MiniPID pid = new MiniPID(0.05, 0, 0);
+        pid.setOutputLimits(0.9);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double angle;
         angle = getAngle();
-        double power = pid.getOutput(angle, startAngle);
-        while (Math.abs(power) > 0.06) {
-            RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
+        double power = pid.getOutput(angle, startAngle + degrees);
+        while (this.opMode.opModeIsActive() && Math.abs(power) > 0.06) {
+            RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle + degrees, power));
             leftFront.setPower(-power);
             rightFront.setPower(power);
             leftRear.setPower(-power);
             rightRear.setPower(power);
             opMode.sleep(50);
             angle = getAngle();
-            power = pid.getOutput(angle, startAngle);
+            power = pid.getOutput(angle, startAngle + degrees);
         };
         leftFront.setPower(0);
         rightFront.setPower(0);
@@ -160,7 +160,7 @@ public class GyroBot extends CameraBot {
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (this.opMode.opModeIsActive() && Math.abs(currentPosition - startingPosition) < distanceTicks) {
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
                 case DIRECTION_FORWARD:
@@ -229,7 +229,7 @@ public class GyroBot extends CameraBot {
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (this.opMode.opModeIsActive() && Math.abs(currentPosition - startingPosition) < distanceTicks) {
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
                 case DIRECTION_FORWARD:

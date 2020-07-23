@@ -3,19 +3,18 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="DistanceSensor Test", group="Exercises")
+@Autonomous(name="Gyro Demo", group="Demos")
 
-public class DistanceTest extends LinearOpMode {
-    private DistanceSensorBot robot = new DistanceSensorBot(this);
+public class GyroDemo extends LinearOpMode {
+    private GyroBot robot = new GyroBot(this);
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        robot.resetAngle();
         waitForStart();
         while (opModeIsActive()) {
-            robot.getDistanceBack();
-            robot.getDistanceFront();
-
+            robot.goBacktoStartAnglePID(0);
         }
     }
 }

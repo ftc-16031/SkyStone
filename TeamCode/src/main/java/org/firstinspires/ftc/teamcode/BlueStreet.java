@@ -12,14 +12,13 @@ public class BlueStreet extends LinearOpMode {
     int direction_forward, direction_backward;
 
     int[] distFirstMove = new int[]{300, 100, -100};
-    int[] distFoundMove = new int[]{1700, 1500, 1300};
-    int[] distBackMove = new int[]{1400, 2250, 2000};
+    int[] distFoundMove = new int[]{1900, 1700, 1500};
+    int[] distBackMove = new int[]{1700, 2420, 2200};
 
     int skystonePostition;
     protected void setDirection(){
         direction_backward = robot.DIRECTION_FORWARD;
         direction_forward = robot.DIRECTION_BACKWARD;
-
     }
 
     @Override
@@ -38,7 +37,7 @@ public class BlueStreet extends LinearOpMode {
 
         robot.pickupSkyStone();
 
-        sleep(100);
+        sleep(400);
 
         robot.driveStraightByGyro(direction_forward, distFoundMove[skystonePostition - 1], 1, false);
 
@@ -50,57 +49,47 @@ public class BlueStreet extends LinearOpMode {
 
         robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200);
 
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
-
-        robot.driveStraightByGyro(direction_backward, distBackMove[skystonePostition - 1], 0.8, false);
+        robot.driveStraightByGyro(direction_backward, distBackMove[skystonePostition - 1], 1, false);
 
         robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 200, 1);
 
-        robot.driveUntilDistance(20, 0.3, 0);
+        robot.driveUntilDistance(20, 0.3, 1);
 
         robot.pickupSkyStone();
 
         sleep(100);
 
-        robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1] + 100, 1, false);
+        robot.startExtension(1);
 
-        robot.startExtension();
+        robot.driveStraightByGyro(direction_forward, distBackMove[skystonePostition - 1] + 200, 1, false);
 
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 200, 1);
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 300, 1);
 
-        robot.dropSkyStone();
+        robot.dropSecondSkyStone();
 
         robot.originalPosition();
 
-        robot.driveStraightByDistance(direction_forward, 300, 1);
+        robot.driveStraightByDistance(direction_forward, 225, 1);
 
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 100, 1);
+        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 90, 0.7);
 
         robot.dragFoundation();
 
         sleep(300);
 
-        robot.stopExtension();
+        robot.stopExtension(1);
 
-        robot.specialGyroDrive(robot.DIRECTION_RIGHT, 800, 0.1, false);
+        robot.specialGyroDrive(robot.DIRECTION_RIGHT, 2100, 0.1, false);
 
-        robot.leftFront.setPower(-1);
-
-        robot.rightFront.setPower(1);
-
-        robot.leftRear.setPower(-1);
-
-        robot.rightRear.setPower(1);
-
-        robot.opMode.sleep(1200);
+        robot.goBacktoStartAnglePID(90);
 
         robot.originalPosition();
 
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 300, 1);
 
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 400, 1);
-        }
-
-
+        robot.driveCurveByDistance(robot.DIRECTION_RIGHT, 1000, 0.3, 1);
     }
+
+
+}
 

@@ -12,14 +12,13 @@ public class BlueStreetOld extends LinearOpMode {
     int direction_forward, direction_backward;
 
     int[] distFirstMove = new int[]{300, 100, -100};
-    int[] distFoundMove = new int[]{1700, 1500, 1300};
-    int[] distBackMove = new int[]{1400, 2250, 2000};
+    int[] distFoundMove = new int[]{1900, 1700, 1500};
+    int[] distBackMove = new int[]{1600, 2450, 2200};
 
     int skystonePostition;
     protected void setDirection(){
         direction_backward = robot.DIRECTION_FORWARD;
         direction_forward = robot.DIRECTION_BACKWARD;
-
     }
 
     @Override
@@ -34,7 +33,7 @@ public class BlueStreetOld extends LinearOpMode {
 
         robot.driveUntilDistance(19, 0.3, 0);
 
-        robot.driveStraightByDistance(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1]);
+        robot.driveStraightByGyro(robot.DIRECTION_FORWARD, distFirstMove[skystonePostition - 1], 0.5, false);
 
         robot.pickupSkyStone();
 
