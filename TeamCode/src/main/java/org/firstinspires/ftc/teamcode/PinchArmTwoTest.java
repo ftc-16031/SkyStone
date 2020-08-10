@@ -12,6 +12,12 @@ public class PinchArmTwoTest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         waitForStart();
-        sleep(10000);
+        robot.rearPickupSkyStone();
+        sleep(5000);
+        robot.rearDropSkyStone();
+        sleep(3000);
+        robot.frontPickupSkyStone();
+        sleep(5000);
+        robot.frontDropSkyStone();
     }
 }

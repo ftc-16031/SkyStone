@@ -10,8 +10,9 @@ public class PinchArmTwoBot extends FourWheelsDriveBot {
     static final int    CYCLE_MS    =   500;     // period of each cycle
     static final double MAX_POS     =  1.0;     // Maximum rotational position
     static final double MIN_POS     =  0.0;     // Minimum rotational position
-    static final double REAR_ARM_INIT = 0.85;
-    static final double REAR_PINCH_INIT = 0;
+
+    static final double REAR_ARM_INIT = 0.9;
+    static final double REAR_PINCH_INIT = 1;
     static final double FRONT_ARM_INIT = 0;
     static final double FRONT_PINCH_INIT = 0;
 
@@ -45,8 +46,39 @@ public class PinchArmTwoBot extends FourWheelsDriveBot {
     }
 
     public void rearPickupSkyStone() {
-        rearArm.setPosition(0.6);
-        
+        rearArm.setPosition(0.57);
+        opMode.sleep(1000);
+        rearPinch.setPosition(0.7);
+        opMode.sleep(1000);
+        rearArm.setPosition(REAR_ARM_INIT);
+        opMode.sleep(1000);
+    }
+
+    public void rearDropSkyStone() {
+        rearArm.setPosition(0.57);
+        opMode.sleep(1000);
+        rearPinch.setPosition(REAR_PINCH_INIT);
+        opMode.sleep(1000);
+        rearArm.setPosition(REAR_ARM_INIT);
+        opMode.sleep(1000);
+    }
+
+    public void frontPickupSkyStone() {
+        frontArm.setPosition(0.33);
+        opMode.sleep(1000);
+        frontPinch.setPosition(0.32);
+        opMode.sleep(1000);
+        frontArm.setPosition(FRONT_ARM_INIT);
+        opMode.sleep(1000);
+    }
+
+    public void frontDropSkyStone() {
+        frontArm.setPosition(0.33);
+        opMode.sleep(1000);
+        frontPinch.setPosition(FRONT_PINCH_INIT);
+        opMode.sleep(1000);
+        frontArm.setPosition(FRONT_ARM_INIT);
+        opMode.sleep(1000);
     }
 
 
