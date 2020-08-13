@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 @TeleOp(name="Thread Demo", group="Demos")
 
 public class ThreadDemo extends LinearOpMode {
-    private ThreadDemo robot = new ThreadDemo(this);
+  //  private ThreadDemo robot = new ThreadDemo(this);
     private ExecutorService updateExecutor;
     private AnotherThreadTest whatever = new AnotherThreadTest();
     DcMotor verticalLeft, verticalRight, horizontal;
@@ -26,14 +26,11 @@ public class ThreadDemo extends LinearOpMode {
     double horizontalTickOffset = 0;
 @Override
         public void runOpMode() {
-        robot.init(hardwareMap);
+     //   robot.init(hardwareMap);
         updateExecutor = ThreadPool.newSingleThreadExecutor("update");
         waitForStart();
         updateExecutor.submit(whatever);
         while (opModeIsActive()) {
-            double changeRight = robot.verticalRight.getCurrentPosition() - lastRightCount;
-            double changeLeft = -robot.verticalLeft.getCurrentPosition() - lastLeftCount;
-            double changeBack = robot.horizontal.getCurrentPosition() - lastBackCount;
 
         }
     }
