@@ -6,12 +6,10 @@ import com.qualcomm.robotcore.util.ThreadPool;
 import java.util.concurrent.ExecutorService;
 
 public class ThreadTest{
-    public Robot(OpMode opMode) {
+  //  public Robot(OpMode opMode) {
         ExecutorService updateExecutor;
-        updateExecutor = ThreadPool.newSingleThreadExecutor("update");
+   //     updateExecutor = ThreadPool.newSingleThreadExecutor("update");
     }
-}
 
-public void start() {
-    updateExecutor.submit(AnotherThreadTest);
-}
+//public void start() {
+  //  updateExecutor.submit(AnotherThreadTest);

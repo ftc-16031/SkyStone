@@ -5,33 +5,40 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.ThreadPool;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import java.util.concurrent.ExecutorService;
-
-@TeleOp(name="Thread Demo", group="Demos")
+@Autonomous(name="Thread Demo", group="Demos")
 
 public class ThreadDemo extends LinearOpMode {
-  //  private ThreadDemo robot = new ThreadDemo(this);
-    private ExecutorService updateExecutor;
-    private AnotherThreadTest whatever = new AnotherThreadTest();
-    DcMotor verticalLeft, verticalRight, horizontal;
-    BNO055IMU imu;
+    public DcMotor horizontal = null;
+
     String rfName = "rf", rbName = "rb", lfName = "lf", lbName = "lb";
-    String verticalLeftEncoder = rbName, verticalRightEncoder = lfName, horizontalEncoder = rfName;
-    final double PIVOT_SPEED = 0.5;
-    final double COUNTS_PER_INCH = 307.699557;
-    ElapsedTime timer = new ElapsedTime();
-    double horizontalTickOffset = 0;
-@Override
+    String verticalLeftEncoderName = rbName, verticalRightEncoderName = lfName, horizontalEncoderName = rfName;
+
+    @Override
         public void runOpMode() {
-     //   robot.init(hardwareMap);
-        updateExecutor = ThreadPool.newSingleThreadExecutor("update");
+        initDriveHardwareMap(rfName, rbName, lfName, lbName, verticalLeftEncoderName, verticalRightEncoderName, horizontalEncoderName);
+        telemetry.addData("Status", "Init Complete");
+        telemetry.update();
         waitForStart();
-        updateExecutor.submit(whatever);
+        Thread positionThread = new Thread();
+        positionThread.start();
         while (opModeIsActive()) {
 
-        }
+        telemetry.addData("horizontal encoder position", horizontal.getCurrentPosition());
+
+        telemetry.addData("Thread Active", positionThread.isAlive());
+        telemetry.update();
     }
 }
+    private void initDriveHardwareMap(String rfName, String rbName, String lfName, String lbName, String vl, String vr, String h){
+
+        horizontal = hardwareMap.dcMotor.get("h");
+        horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        telemetry.addData("Status", "Hardware Map Init Complete");
+        telemetry.update();
+    }
+    }
