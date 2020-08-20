@@ -23,7 +23,6 @@ public class ThreadDemo extends LinearOpMode {
 
     double xCurrentBlue = 0, yCurrentBlue = 0, thetaCurrentBlue = 60;
     double xRed = 0, yRed = 0;
-    double xChangeBlue, yChangeBlue;
 
     @Override
         public void runOpMode() {
