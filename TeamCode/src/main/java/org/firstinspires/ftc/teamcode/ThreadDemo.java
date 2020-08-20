@@ -37,7 +37,6 @@ public class ThreadDemo extends LinearOpMode {
         horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
         telemetry.addData("Status", "Hardware Map Init Complete");
         telemetry.update();
     }
