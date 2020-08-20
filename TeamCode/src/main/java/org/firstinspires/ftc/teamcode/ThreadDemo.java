@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,7 +22,7 @@ public class ThreadDemo extends LinearOpMode {
     String verticalLeftEncoderName = rbName, verticalRightEncoderName = lfName, horizontalEncoderName = rfName;
 
     double xCurrentBlue = 0, yCurrentBlue = 0, thetaCurrentBlue = 60;
-    double xRed, yRed;
+    double xRed = 0, yRed = 0;
     double xChangeBlue, yChangeBlue;
 
     @Override
@@ -32,7 +34,11 @@ public class ThreadDemo extends LinearOpMode {
         waitForStart();
         caseThreeThread.start();
         while (opModeIsActive()) {
-            telemetry.addData(String.format("Position: %2d, %2d", xCurrentBlue, yCurrentBlue));
+            RobotLog.d(String.format("Position, heading: %2d, %2d, %2d", xCurrentBlue, yCurrentBlue, thetaCurrentBlue));
+            telemetry.addData("X:", xCurrentBlue);
+            telemetry.addData("Y:", yCurrentBlue);
+            telemetry.addData("Theta:", thetaCurrentBlue);
+            telemetry.update();
     }
 }
     private void initDriveHardwareMap(String rfName, String rbName, String lfName, String lbName, String vl, String vr, String h){
@@ -59,11 +65,8 @@ public class ThreadDemo extends LinearOpMode {
             xRed = (verticalLeft.getCurrentPosition() + verticalRight.getCurrentPosition())/2;
             yRed = horizontal.getCurrentPosition();
 
-            xChangeBlue = Math.sin(thetaCurrentBlue)*yRed + Math.cos(thetaCurrentBlue)*xRed;
-            yChangeBlue = Math.sin(thetaCurrentBlue)*xRed + Math.cos((thetaCurrentBlue)*yRed);
-
-            xCurrentBlue =+ xChangeBlue;
-            yCurrentBlue =+ xChangeBlue;
+            xCurrentBlue = Math.sin(thetaCurrentBlue)*yRed + Math.cos(thetaCurrentBlue)*xRed;
+            yCurrentBlue = Math.sin(thetaCurrentBlue)*xRed + Math.cos((thetaCurrentBlue)*yRed);
         }
 
         public void run() {
