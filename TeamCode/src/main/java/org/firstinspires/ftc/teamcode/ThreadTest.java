@@ -18,6 +18,8 @@ public class ThreadTest extends LinearOpMode {
     double xCurrentBlue = 0, yCurrentBlue = 0, thetaCurrentBlue = 60;
     double xRed = 0, yRed = 0;
 
+    boolean isRunning = true;
+
     @Override
     public void runOpMode() {
 
@@ -25,12 +27,12 @@ public class ThreadTest extends LinearOpMode {
         waitForStart();
         caseThreeThread.start();
         while (opModeIsActive()) {
-            RobotLog.d(String.format("Position, heading: %2f, %2f, %2f", xCurrentBlue, yCurrentBlue, thetaCurrentBlue));
-            telemetry.addData("X:", xCurrentBlue);
-            telemetry.addData("Y:", yCurrentBlue);
-            telemetry.addData("Theta:", thetaCurrentBlue);
+            RobotLog.d(String.format("Position, heading: %f, %f, %f", xCurrentBlue, yCurrentBlue, thetaCurrentBlue));
+            RobotLog.d(String.format("Red values: %f, %f", xRed, yRed));
+            telemetry.addData("OpMode:", String.format("%f, %f, %f", xCurrentBlue, yCurrentBlue, thetaCurrentBlue));
             telemetry.update();
         }
+        isRunning = false;
     }
 
     public class CaseThree extends Thread {
@@ -39,16 +41,23 @@ public class ThreadTest extends LinearOpMode {
             xRed = horizontal;
             yRed = (verticalLeft + verticalRight)/2;
 
-            xCurrentBlue = Math.sin(thetaCurrentBlue)*xRed + Math.cos(thetaCurrentBlue)*yRed;
-            yCurrentBlue = Math.sin(thetaCurrentBlue)*yRed + Math.cos((thetaCurrentBlue)*xRed);
+            xCurrentBlue = Math.sin(90 - thetaCurrentBlue)*xRed + Math.cos(thetaCurrentBlue)*yRed;
+            yCurrentBlue = Math.sin(thetaCurrentBlue)*yRed + Math.cos(90 - thetaCurrentBlue)*xRed;
         }
 
         public void run() {
-            while (true) {
+            while (isRunning) {
                 calculateCaseThree();
-                verticalLeft =+ 1;
-                verticalRight =+ 1;
-                horizontal =+ 1;
+                verticalLeft += 1;
+                verticalRight += 1;
+                horizontal += 1;
+                telemetry.addData("Thread:", String.format("%f, %f, %f", verticalLeft, verticalRight, horizontal));
+                telemetry.update();
+                try {
+                    Thread.sleep(1500);
+                } catch(InterruptedException e) {
+                    break;
+                }
             }
         }
     }
