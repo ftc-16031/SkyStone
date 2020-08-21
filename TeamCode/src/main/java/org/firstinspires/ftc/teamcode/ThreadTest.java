@@ -41,8 +41,8 @@ public class ThreadTest extends LinearOpMode {
             xRed = horizontal;
             yRed = (verticalLeft + verticalRight)/2;
 
-            xCurrentBlue = Math.sin(90 - thetaCurrentBlue)*xRed + Math.cos(thetaCurrentBlue)*yRed;
-            yCurrentBlue = Math.sin(thetaCurrentBlue)*yRed + Math.cos(90 - thetaCurrentBlue)*xRed;
+            xCurrentBlue = Math.cos(Math.toRadians(thetaCurrentBlue - 90))*xRed + Math.cos(Math.toRadians(thetaCurrentBlue))*yRed;
+            yCurrentBlue = Math.sin(Math.toRadians(thetaCurrentBlue))*yRed + Math.sin(Math.toRadians(thetaCurrentBlue - 90))*xRed;
         }
 
         public void run() {
