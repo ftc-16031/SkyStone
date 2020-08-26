@@ -1,19 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.RobotLog;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Autonomous(name="Thread Test", group="Tests")
 
 public class ThreadTest extends LinearOpMode {
 
-    double verticalLeft, verticalRight, horizontal = 0;
+    int verticalLeft, verticalRight, horizontal = 0;
 
     double xCurrentBlue = 0, yCurrentBlue = 0, thetaCurrentBlue = 60;
     double xRed = 0, yRed = 0;
@@ -35,9 +30,17 @@ public class ThreadTest extends LinearOpMode {
         isRunning = false;
     }
 
+    public boolean foobar(int x){
+        return x>0;
+    }
+
     public class CaseThree extends Thread {
 
-        private void calculateCaseThree() {
+        public boolean anotherFoobar(int x){
+            return x>0;
+        }
+
+        private void calculateCaseThree(int verticalLeft, int verticalRight, int horizontal) {
             xRed = horizontal;
             yRed = (verticalLeft + verticalRight)/2;
 
@@ -47,7 +50,7 @@ public class ThreadTest extends LinearOpMode {
 
         public void run() {
             while (isRunning) {
-                calculateCaseThree();
+                calculateCaseThree(verticalLeft, verticalRight, horizontal);
                 verticalLeft += 1;
                 verticalRight += 1;
                 horizontal += 1;

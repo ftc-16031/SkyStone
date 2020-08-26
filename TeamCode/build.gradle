@@ -1,4 +1,4 @@
-//
+
 // build.gradle in TeamCode
 //
 // Most of the definitions for building your module reside in a common, shared
@@ -10,6 +10,10 @@
 
 
 // Custom definitions may go here
-
 // Include common definitions from above.
 apply from: '../build.common.gradle'
+
+dependencies {
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+}
