@@ -40,12 +40,14 @@ public class ThreadTest extends LinearOpMode {
             return x>0;
         }
 
-        private void calculateCaseThree(int verticalLeft, int verticalRight, int horizontal) {
+        public double calculateCaseThree(int verticalLeft, int verticalRight, int horizontal) {
             xRed = horizontal;
             yRed = (verticalLeft + verticalRight)/2;
 
             xCurrentBlue = Math.cos(Math.toRadians(thetaCurrentBlue - 90))*xRed + Math.cos(Math.toRadians(thetaCurrentBlue))*yRed;
             yCurrentBlue = Math.sin(Math.toRadians(thetaCurrentBlue))*yRed + Math.sin(Math.toRadians(thetaCurrentBlue - 90))*xRed;
+
+            return xCurrentBlue, yCurrentBlue;
         }
 
         public void run() {
