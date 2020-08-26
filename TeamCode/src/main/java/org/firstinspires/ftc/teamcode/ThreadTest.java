@@ -2,16 +2,22 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 @Autonomous(name="Thread Test", group="Tests")
 
 public class ThreadTest extends LinearOpMode {
 
+    private DcMotor verticalEncoderLeft, verticalEncoderRight, horizontalEncoder;
     int verticalLeft, verticalRight, horizontal = 0;
 
     double xCurrentBlue = 0, yCurrentBlue = 0, thetaCurrentBlue = 60;
     double xRed = 0, yRed = 0;
+    double verticalRightEncoderWheelPosition = 0, verticalLeftEncoderWheelPosition = 0, angleChange = 0;
+    double robotOrientationRadians = 0;
+    double previousVerticalRightEncoderWheelPosition = 0, previousVerticalLeftEncoderWheelPosition = 0;
+    double radius = 0;
 
     boolean isRunning = true;
 
@@ -40,7 +46,11 @@ public class ThreadTest extends LinearOpMode {
             return x>0;
         }
 
-        public double[] calculateCaseThree(int vL, int vR, int h) {
+        public double[] calculateCaseThree(int vL, int vR, int h, int lC, int rC, int radius) {
+            verticalLeftEncoderWheelPosition = verticalEncoderLeft.getCurrentPosition();
+            verticalRightEncoderWheelPosition = verticalEncoderRight.getCurrentPosition();
+            angleChange = (lC - rC) / Math.PI * (radius);
+
             xRed = h;
             yRed = (vL + vR)/2;
 
