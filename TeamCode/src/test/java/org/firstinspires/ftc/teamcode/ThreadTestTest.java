@@ -24,8 +24,13 @@ public class ThreadTestTest {
     public void calculateCaseThreeTest() {
         ThreadTest test = new ThreadTest();
         ThreadTest.CaseThree case3 = test.new CaseThree();
-        assertTrue(case3.calculateCaseThree(1, 1, 1));
-        assertFalse(case3.anotherFoobar(-1));
-
+        double[] expected1 = {1.37, 0.37};
+        double[] expected2 = {1.87, 1.23};
+        double[] expected3 = {-2.83, 5.10};
+        double[] expected4 = {-6.60, -5.43};
+        assertArrayEquals(expected1, case3.calculateCaseThree(1, 1, 1), 0.01);
+        assertArrayEquals(expected2, case3.calculateCaseThree(2, 2, 1), 0.01);
+        assertArrayEquals(expected3, case3.calculateCaseThree(3, 3, -5), 0.01);
+        assertArrayEquals(expected4, case3.calculateCaseThree(-8, -8, -3), 0.01);
     }
 }
