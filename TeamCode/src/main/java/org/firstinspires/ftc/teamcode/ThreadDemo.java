@@ -61,11 +61,11 @@ public class ThreadDemo extends LinearOpMode {
     public class CaseThree extends Thread {
 
         private void calculateCaseThree() {
-            xRed = (verticalLeft.getCurrentPosition() + verticalRight.getCurrentPosition())/2;
-            yRed = horizontal.getCurrentPosition();
+            xRed = horizontal.getCurrentPosition();
+            yRed = (verticalLeft.getCurrentPosition() + verticalRight.getCurrentPosition())/2;
 
-            xCurrentBlue = Math.sin(thetaCurrentBlue)*yRed + Math.cos(thetaCurrentBlue)*xRed;
-            yCurrentBlue = Math.sin(thetaCurrentBlue)*xRed + Math.cos((thetaCurrentBlue)*yRed);
+            xCurrentBlue = Math.cos(Math.toRadians(thetaCurrentBlue - 90))*xRed + Math.cos(Math.toRadians(thetaCurrentBlue))*yRed;
+            yCurrentBlue = Math.sin(Math.toRadians(thetaCurrentBlue))*yRed + Math.sin(Math.toRadians(thetaCurrentBlue - 90))*xRed;
         }
 
         public void run() {
