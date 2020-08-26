@@ -9,7 +9,6 @@ public class OdometryAngleOnly implements Runnable {
 
     private boolean isRunning = true;
 
-    double verticalRightEncoderWheelPosition = 0, verticalLeftEncoderWheelPosition = 0, changeInRobotOrientation = 0;
     double verticalRightEncoderWheelPosition = 0, verticalLeftEncoderWheelPosition = 0, angleChange = 0;
     private double robotOrientationRadians = 0;
     private double previousVerticalRightEncoderWheelPosition = 0, previousVerticalLeftEncoderWheelPosition = 0;
