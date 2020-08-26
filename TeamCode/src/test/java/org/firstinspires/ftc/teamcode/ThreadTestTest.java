@@ -28,9 +28,11 @@ public class ThreadTestTest {
         double[] expected2 = {1.87, 1.23};
         double[] expected3 = {-2.83, 5.10};
         double[] expected4 = {-6.60, -5.43};
-        assertArrayEquals(expected1, case3.calculateCaseThree(1, 1, 1), 0.01);
-        assertArrayEquals(expected2, case3.calculateCaseThree(2, 2, 1), 0.01);
-        assertArrayEquals(expected3, case3.calculateCaseThree(3, 3, -5), 0.01);
-        assertArrayEquals(expected4, case3.calculateCaseThree(-8, -8, -3), 0.01);
+        double[] expected5 = {0.95, -0.32};
+        assertArrayEquals(expected1, case3.calculateCaseThree(1, 1, 1, 60), 0.01);
+        assertArrayEquals(expected2, case3.calculateCaseThree(2, 2, 1, 60), 0.01);
+        assertArrayEquals(expected3, case3.calculateCaseThree(3, 3, -5, 60), 0.01);
+        assertArrayEquals(expected4, case3.calculateCaseThree(-8, -8, -3, 60), 0.01);
+        assertArrayEquals(expected5, case3.calculateCaseThree(1, -1, 1, 60), 0.01);
     }
 }
