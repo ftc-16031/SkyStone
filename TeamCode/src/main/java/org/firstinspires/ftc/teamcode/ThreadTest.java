@@ -14,11 +14,16 @@ public class ThreadTest extends LinearOpMode {
     String rfName = "rf", rbName = "rb", lfName = "lf", lbName = "lb";
     String verticalLeftEncoderName = rbName, verticalRightEncoderName = lfName, horizontalEncoderName = rfName;
 
-    double xCurrentBlue = 0, yCurrentBlue = 0, thetaDEG = 0;
+    double xBlue = 0, yBlue = 0, thetaDEG = 0;
     double xRed = 0, yRed = 0;
-    double verticalRightPosition = 0, verticalLeftPosition = 0, angleChange = 0;
+    double verticalRight = 0, verticalLeft = 0, angleChange = 0;
     double previousVL = 0, previousVR = 0;
     final double radius = 10;
+    final double wheelDiameter = 3.8;
+    final double ticksPerRevolution = 8192;
+    final int vLDirection = 1;
+    final int vRDirection = 1;
+    final int hDirection = 1;
 
     boolean isRunning = true;
 
@@ -29,9 +34,9 @@ public class ThreadTest extends LinearOpMode {
         waitForStart();
         caseThreeThread.start();
         while (opModeIsActive()) {
-            RobotLog.d(String.format("Position, heading: %f, %f, %f", xCurrentBlue, yCurrentBlue, thetaDEG));
+            RobotLog.d(String.format("Position, heading: %f, %f, %f", xBlue, yBlue, thetaDEG));
             RobotLog.d(String.format("Red values: %f, %f", xRed, yRed));
-            telemetry.addData("OpMode:", String.format("%f, %f, %f", xCurrentBlue, yCurrentBlue, thetaDEG));
+            telemetry.addData("OpMode:", String.format("%f, %f, %f", xBlue, yBlue, thetaDEG));
             telemetry.update();
         }
         isRunning = false;
@@ -63,9 +68,10 @@ public class ThreadTest extends LinearOpMode {
             return x>0;
         }
 
-        public double[] calculateCaseThree(int vL, int vR, int h, double thetaDEG) {
-            verticalLeftPosition = vL;
-            verticalRightPosition = vR;
+        public double[] calculateCaseThree(double vL, double vR, double h, double thetaDEG) {
+            vL = vL * vLDirection;
+            vR = vR * vRDirection;
+            h = h * hDirection;
 
             double lC = vL - previousVL;
             double rC = vR - previousVR;
@@ -74,26 +80,29 @@ public class ThreadTest extends LinearOpMode {
 
             thetaDEG = thetaDEG + angleChange;
 
+            System.out.println(String.format("%f, %f",angleChange, thetaDEG));
+
             xRed = h;
             yRed = (vL + vR)/2;
 
-            xCurrentBlue = Math.cos(Math.toRadians(thetaDEG - 90))*xRed + Math.cos(Math.toRadians(thetaDEG))*yRed;
-            yCurrentBlue = Math.sin(Math.toRadians(thetaDEG))*yRed + Math.sin(Math.toRadians(thetaDEG - 90))*xRed;
+            xBlue = Math.cos(Math.toRadians(thetaDEG - 90))*xRed + Math.cos(Math.toRadians(thetaDEG))*yRed;
+            yBlue = Math.sin(Math.toRadians(thetaDEG))*yRed + Math.sin(Math.toRadians(thetaDEG - 90))*xRed;
 
             previousVL = vL;
             previousVR = vR;
 
-            double[] position = {xCurrentBlue, yCurrentBlue};
+            double[] position = {xBlue, yBlue};
 
             return position;
         }
 
         public void run() {
             while (isRunning) {
-                calculateCaseThree(verticalLeftEncoder.getCurrentPosition(), verticalRightEncoder.getCurrentPosition(),
-                        horizontalEncoder.getCurrentPosition(), thetaDEG);
+                calculateCaseThree((verticalLeftEncoder.getCurrentPosition() * wheelDiameter * Math.PI) / ticksPerRevolution,
+            (verticalRightEncoder.getCurrentPosition() * wheelDiameter * Math.PI) / ticksPerRevolution,
+             (horizontalEncoder.getCurrentPosition() * wheelDiameter * Math.PI) / ticksPerRevolution, thetaDEG);
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(50);
                 } catch(InterruptedException e) {
                     break;
                 }
