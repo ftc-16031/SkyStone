@@ -18,7 +18,7 @@ public class ThreadTest extends LinearOpMode {
     double xRed = 0, yRed = 0;
     double verticalRight = 0, verticalLeft = 0, angleChange = 0;
     double previousVL = 0, previousVR = 0;
-    final double radius = 10;
+    final double radius = 25;
     final double wheelDiameter = 3.8;
     final double ticksPerRevolution = 8192;
     final int vLDirection = 1;
@@ -36,7 +36,8 @@ public class ThreadTest extends LinearOpMode {
         while (opModeIsActive()) {
             RobotLog.d(String.format("Position, heading: %f, %f, %f", xBlue, yBlue, thetaDEG));
             RobotLog.d(String.format("Red values: %f, %f", xRed, yRed));
-            telemetry.addData("OpMode:", String.format("%f, %f, %f", xBlue, yBlue, thetaDEG));
+            telemetry.addData("OpMode:", String.format("%f, %f, %f, %d, %d, %d", xBlue, yBlue, thetaDEG,
+            verticalLeftEncoder.getCurrentPosition(), verticalRightEncoder.getCurrentPosition(), horizontalEncoder.getCurrentPosition()));
             telemetry.update();
         }
         isRunning = false;
@@ -68,7 +69,7 @@ public class ThreadTest extends LinearOpMode {
             return x>0;
         }
 
-        public double[] calculateCaseThree(double vL, double vR, double h, double thetaDEG) {
+        public double[] calculateCaseThree(double vL, double vR, double h, double angleDEG) {
             vL = vL * vLDirection;
             vR = vR * vRDirection;
             h = h * hDirection;
@@ -78,15 +79,16 @@ public class ThreadTest extends LinearOpMode {
 
             angleChange = ((lC - rC) / (Math.PI * radius * 2) * 360);
 
-            thetaDEG = thetaDEG + angleChange;
+            angleDEG = angleDEG + angleChange;
+            thetaDEG = angleDEG;
 
-            System.out.println(String.format("%f, %f",angleChange, thetaDEG));
+            System.out.println(String.format("%f, %f",angleChange, angleDEG));
 
             xRed = h;
             yRed = (vL + vR)/2;
 
-            xBlue = Math.cos(Math.toRadians(thetaDEG - 90))*xRed + Math.cos(Math.toRadians(thetaDEG))*yRed;
-            yBlue = Math.sin(Math.toRadians(thetaDEG))*yRed + Math.sin(Math.toRadians(thetaDEG - 90))*xRed;
+            xBlue = Math.cos(Math.toRadians(angleDEG - 90))*xRed + Math.cos(Math.toRadians(angleDEG))*yRed;
+            yBlue = Math.sin(Math.toRadians(angleDEG))*yRed + Math.sin(Math.toRadians(angleDEG - 90))*xRed;
 
             previousVL = vL;
             previousVR = vR;
