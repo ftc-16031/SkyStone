@@ -18,16 +18,22 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 public class NewCameraBot extends FourWheelDriveBot {
-    public class Area extends Object{
+
+    class Area extends Object{
         public int x;
         public int y;
         public int width;
         public int height;
     }
 
-    Area box1 = new Area();
-    Area box2 = new Area();
-    Area box3 = new Area();
+    final int startX = 500;
+    final int startY = 230;
+    final int boxWidth = 60;
+    final int boxHeight = 90;
+    final int numberOfColumns = 3;
+    final int numberOfRows = 3;
+
+    protected Area[][] boxes = new Area[numberOfColumns][numberOfRows];
 
     public NewCameraBot(LinearOpMode opMode) {
         super(opMode);
@@ -68,24 +74,63 @@ public class NewCameraBot extends FourWheelDriveBot {
 
     }
 
+
     @Override
     public void init(HardwareMap ahwMap) {
-        box1.x = 750;
-        box1.y = 100;
-        box1.width = 100;
-        box1.height = 200;
-        box2.x = 750;
-        box2.y = 300;
-        box2.width = 100;
-        box2.height = 200;
-        box3.x = 750;
-        box3.y = 500;
-        box3.width = 100;
-        box3.height = 200;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boxes[i][j] = new Area();
+                boxes[i][j].x = startX + boxWidth * i;
+                boxes[i][j].y = startY + boxHeight * j;
+                boxes[i][j].width = boxWidth;
+                boxes[i][j].height = boxHeight;
+            }
+        }
+        //first row of sub-bitmaps
+//        boxes[0].x = 500;
+//        boxes[0].y = 230;
+//        boxes[0].width = 60;
+//        boxes[0].height = 90;
+//        boxes[1].x = 560;
+//        boxes[1].y = 230;
+//        boxes[1].width = 60;
+//        boxes[1].height = 90;
+//        boxes[2].x = 620;
+//        boxes[2].y = 230;
+//        boxes[2].width = 60;
+//        boxes[2].height = 90;
+//
+//        //second row of sub-bitmaps
+//        boxes[3].x = 500;
+//        boxes[3].y = 320;
+//        boxes[3].width = 60;
+//        boxes[3].height = 90;
+//        boxes[4].x = 560;
+//        boxes[4].y = 320;
+//        boxes[4].width = 60;
+//        boxes[4].height = 90;
+//        boxes[5].x = 620;
+//        boxes[5].y = 320;
+//        boxes[5].width = 60;
+//        boxes[5].height = 90;
+//
+//        //third row of sub-bitmaps
+//        boxes[6].x = 500;
+//        boxes[6].y = 410;
+//        boxes[6].width = 60;
+//        boxes[6].height = 90;
+//        boxes[7].x = 560;
+//        boxes[7].y = 410;
+//        boxes[7].width = 60;
+//        boxes[7].height = 90;
+//        boxes[8].x = 620;
+//        boxes[8].y = 410;
+//        boxes[8].width = 60;
+//        boxes[8].height = 90;
+
         super.init(ahwMap);
-
         initVuforia();
-
     }
 
     @Override
@@ -93,10 +138,9 @@ public class NewCameraBot extends FourWheelDriveBot {
 
     }
 
-    final int NOSKYSTONE = 0;
-    final int SKYSTONE1 = 1;
-    final int SKYSTONE2 = 2;
-    final int SKYSTONE3 = 3;
+    final int NORINGS = 0;
+    final int ONERING = 1;
+    final int FOURRINGS = 4;
 
     protected void printAndSave(Bitmap bmp, int average, String label){
         RobotLog.d("Image %s with %d x %d and average RGB #%02X #%02X #%02X", label, bmp.getWidth(), bmp.getHeight(), Color.red(average), Color.green(average), Color.blue(average));
@@ -108,7 +152,7 @@ public class NewCameraBot extends FourWheelDriveBot {
 
     }
 
-    public int detectSkystone() {
+    public int detectRings() {
         BlockingQueue<VuforiaLocalizer.CloseableFrame> queue = vuforia.getFrameQueue();
         RobotLog.d("Detecting Started ...");
         try {
@@ -118,48 +162,66 @@ public class NewCameraBot extends FourWheelDriveBot {
             Bitmap bmp = vuforia.convertFrameToBitmap(frame);
             RobotLog.d("Converted Vuforia frame to BMP");
             // DEBUG : uncomment the following line to save the whole picture captured
-             printAndSave(bmp, getAverageRGB(bmp), "camera");
+            //printAndSave(bmp, getAverageRGB(bmp), "camera");
             RobotLog.d("Saved camera BMP");
             frame.close();
             RobotLog.d("Closed frame");
-            Bitmap b1, b2, b3;
-            b1 = Bitmap.createBitmap(bmp, box1.x, box1.y, box1.width, box1.height);
-            b2 = Bitmap.createBitmap(bmp, box2.x, box2.y, box2.width, box2.height);
-            b3 = Bitmap.createBitmap(bmp, box3.x, box3.y, box3.width, box3.height);
-            RobotLog.d("Created 3 sub-bitmaps");
-            int c1, c2, c3;
-            c1 = getAverageRGB(b1);
-            c2 = getAverageRGB(b2);
-            c3 = getAverageRGB(b3);
-            RobotLog.d("Calculate AVG for 3 sub-bitmaps");
-            printAndSave(b1, c1, "box1");
-            printAndSave(b2, c2, "box2");
-            printAndSave(b3, c3, "box3");
-            RobotLog.d("Saved for 3 sub-bitmaps");
-            int skystone = chooseSkystone(c1, c2, c3);
-            RobotLog.d("Chose skystone from 3 sub-bitmaps");
-            return skystone;
+            Bitmap[][] b = new Bitmap[numberOfColumns][numberOfRows];
+            int[][] c = new int[numberOfColumns][numberOfRows];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    b[i][j] = Bitmap.createBitmap(bmp, boxes[i][j].x, boxes[i][j].y, boxes[i][j].width, boxes[i][j].height);
+                    c[i][j] = getAverageRGB(b[i][j]);
+                    printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
+                }
+            }
+            RobotLog.d("Created 9 sub-bitmaps");
+            RobotLog.d("Calculate AVG for 9 sub-bitmaps");
+            RobotLog.d("Saved 9 sub-bitmaps");
+            int numberOfRings = chooseRings(c);
+            RobotLog.d("Determine # of rings through 9 sub-bitmaps");
+            return numberOfRings;
         } catch (InterruptedException e) {
             print("Photo taken has been interrupted !");
-            return NOSKYSTONE;
+            return NORINGS;
         }
 
     }
 
-    public int chooseSkystone(int c1, int c2, int c3){
+    public int chooseRings (int[][] c){
 
-        if (c1 < c2 && c1 < c3) {
-            return SKYSTONE1;
-        } else if (c2 < c1 && c2 < c3) {
-            return SKYSTONE2;
-        } else if (c3 < c1 && c3 < c2) {
-            return SKYSTONE3;
+        int correctBoxes = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (colourIsCorrect(c[i][j], i, j)) {
+                    correctBoxes++;
+                }
+            }
         }
-
-        return SKYSTONE1;
+        if (correctBoxes <= 2) {
+            return NORINGS;
+        } else if (correctBoxes <= 5) {
+            return ONERING;
+        } else {
+            return FOURRINGS;
+        }
     }
 
-    protected int getAverageRGB(Bitmap bmp){
+    public boolean colourIsCorrect (int c, int i, int j) {
+        int red = Color.red(c);
+        int green = Color.green(c);
+        int blue = Color.blue(c);
+
+        if ((120 < red && 200 > red && 50 < green && 110 > green) || (120 < red && 200 > red && 100 > blue)) {
+            RobotLog.d(String.format("Box %d,%d is true", i, j));
+            return true;
+        } else {
+            RobotLog.d(String.format("Box %d,%d is false", i, j));
+            return false;
+        }
+    }
+
+    protected int getAverageRGB (Bitmap bmp){
 
         int totalRed = 0;
         int totalGreen = 0;

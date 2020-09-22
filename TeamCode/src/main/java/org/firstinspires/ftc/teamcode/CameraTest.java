@@ -13,9 +13,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class CameraTest extends LinearOpMode {
 
+    protected NewCameraBot robot = new NewCameraBot(this);
+
     @Override
     public void runOpMode() {
-        CameraBot robot = new CameraBot(this);
+        robot.init(hardwareMap);
+        waitForStart();
+        int numberOfRings = robot.detectRings();
+        telemetry.addData("Number of rings:", numberOfRings);
+        telemetry.update();
+        sleep(10000);
 
     }
 
