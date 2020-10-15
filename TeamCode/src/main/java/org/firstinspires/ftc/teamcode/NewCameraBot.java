@@ -26,12 +26,12 @@ public class NewCameraBot extends FourWheelDriveBot {
         public int height;
     }
 
-    final int startX = 500;
-    final int startY = 230;
-    final int boxWidth = 60;
-    final int boxHeight = 90;
-    final int numberOfColumns = 3;
-    final int numberOfRows = 3;
+    final int startX = 10;
+    final int startY = 140;
+    final int boxWidth = 90;
+    final int boxHeight = 50;
+    final int numberOfColumns = 14;
+    final int numberOfRows = 7;
 
     protected Area[][] boxes = new Area[numberOfColumns][numberOfRows];
 
@@ -78,8 +78,8 @@ public class NewCameraBot extends FourWheelDriveBot {
     @Override
     public void init(HardwareMap ahwMap) {
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < numberOfColumns; i++) {
+            for (int j = 0; j < numberOfRows; j++) {
                 boxes[i][j] = new Area();
                 boxes[i][j].x = startX + boxWidth * i;
                 boxes[i][j].y = startY + boxHeight * j;
@@ -87,47 +87,6 @@ public class NewCameraBot extends FourWheelDriveBot {
                 boxes[i][j].height = boxHeight;
             }
         }
-        //first row of sub-bitmaps
-//        boxes[0].x = 500;
-//        boxes[0].y = 230;
-//        boxes[0].width = 60;
-//        boxes[0].height = 90;
-//        boxes[1].x = 560;
-//        boxes[1].y = 230;
-//        boxes[1].width = 60;
-//        boxes[1].height = 90;
-//        boxes[2].x = 620;
-//        boxes[2].y = 230;
-//        boxes[2].width = 60;
-//        boxes[2].height = 90;
-//
-//        //second row of sub-bitmaps
-//        boxes[3].x = 500;
-//        boxes[3].y = 320;
-//        boxes[3].width = 60;
-//        boxes[3].height = 90;
-//        boxes[4].x = 560;
-//        boxes[4].y = 320;
-//        boxes[4].width = 60;
-//        boxes[4].height = 90;
-//        boxes[5].x = 620;
-//        boxes[5].y = 320;
-//        boxes[5].width = 60;
-//        boxes[5].height = 90;
-//
-//        //third row of sub-bitmaps
-//        boxes[6].x = 500;
-//        boxes[6].y = 410;
-//        boxes[6].width = 60;
-//        boxes[6].height = 90;
-//        boxes[7].x = 560;
-//        boxes[7].y = 410;
-//        boxes[7].width = 60;
-//        boxes[7].height = 90;
-//        boxes[8].x = 620;
-//        boxes[8].y = 410;
-//        boxes[8].width = 60;
-//        boxes[8].height = 90;
 
         super.init(ahwMap);
         initVuforia();
@@ -143,7 +102,8 @@ public class NewCameraBot extends FourWheelDriveBot {
     final int FOURRINGS = 4;
 
     protected void printAndSave(Bitmap bmp, int average, String label){
-        RobotLog.d("Image %s with %d x %d and average RGB #%02X #%02X #%02X", label, bmp.getWidth(), bmp.getHeight(), Color.red(average), Color.green(average), Color.blue(average));
+        RobotLog.d("Image %s with %d x %d and average RGB #%02X #%02X #%02X", label, bmp.getWidth(), bmp.getHeight(),
+                Color.red(average), Color.green(average), Color.blue(average));
         try (FileOutputStream out = new FileOutputStream(String.format("/sdcard/FIRST/ftc_%s.png", label))) {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
         } catch (IOException e) {
@@ -162,17 +122,17 @@ public class NewCameraBot extends FourWheelDriveBot {
             Bitmap bmp = vuforia.convertFrameToBitmap(frame);
             RobotLog.d("Converted Vuforia frame to BMP");
             // DEBUG : uncomment the following line to save the whole picture captured
-            //printAndSave(bmp, getAverageRGB(bmp), "camera");
+//            printAndSave(bmp, getAverageRGB(bmp), "camera");
             RobotLog.d("Saved camera BMP");
             frame.close();
             RobotLog.d("Closed frame");
             Bitmap[][] b = new Bitmap[numberOfColumns][numberOfRows];
             int[][] c = new int[numberOfColumns][numberOfRows];
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < numberOfColumns; i++) {
+                for (int j = 0; j < numberOfRows; j++) {
                     b[i][j] = Bitmap.createBitmap(bmp, boxes[i][j].x, boxes[i][j].y, boxes[i][j].width, boxes[i][j].height);
                     c[i][j] = getAverageRGB(b[i][j]);
-                    printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
+//                    printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
                 }
             }
             RobotLog.d("Created 9 sub-bitmaps");
@@ -191,8 +151,8 @@ public class NewCameraBot extends FourWheelDriveBot {
     public int chooseRings (int[][] c){
 
         int correctBoxes = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < numberOfColumns; i++) {
+            for (int j = 0; j < numberOfRows; j++) {
                 if (colourIsCorrect(c[i][j], i, j)) {
                     correctBoxes++;
                 }
@@ -211,9 +171,10 @@ public class NewCameraBot extends FourWheelDriveBot {
         int red = Color.red(c);
         int green = Color.green(c);
         int blue = Color.blue(c);
-
+//((120 < red && 200 > red && 50 < green && 110 > green) || (120 < red && 200 > red && 100 > blue))
+//(red - green + 10 > 0 && red - blue + 10 > 0)
         if ((120 < red && 200 > red && 50 < green && 110 > green) || (120 < red && 200 > red && 100 > blue)) {
-            RobotLog.d(String.format("Box %d,%d is true", i, j));
+            RobotLog.d(String.format("Box %d,%d is TRUE", i, j));
             return true;
         } else {
             RobotLog.d(String.format("Box %d,%d is false", i, j));

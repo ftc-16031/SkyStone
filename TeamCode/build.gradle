@@ -17,3 +17,9 @@ dependencies {
     // Required -- JUnit 4 framework
     testImplementation 'junit:junit:4.12'
 }
+android {
+    // ...
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
