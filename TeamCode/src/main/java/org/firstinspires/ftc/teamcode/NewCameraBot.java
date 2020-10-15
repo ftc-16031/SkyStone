@@ -90,6 +90,7 @@ public class NewCameraBot extends FourWheelDriveBot {
 
         super.init(ahwMap);
         initVuforia();
+
     }
 
     @Override
@@ -126,12 +127,11 @@ public class NewCameraBot extends FourWheelDriveBot {
             RobotLog.d("Saved camera BMP");
             frame.close();
             RobotLog.d("Closed frame");
-            Bitmap[][] b = new Bitmap[numberOfColumns][numberOfRows];
             int[][] c = new int[numberOfColumns][numberOfRows];
             for (int i = 0; i < numberOfColumns; i++) {
                 for (int j = 0; j < numberOfRows; j++) {
-                    b[i][j] = Bitmap.createBitmap(bmp, boxes[i][j].x, boxes[i][j].y, boxes[i][j].width, boxes[i][j].height);
-                    c[i][j] = getAverageRGB(b[i][j]);
+                    c[i][j] = getAverageRGB(bmp, boxes[i][j].x, boxes[i][j].y);
+                    RobotLog.d(String.format("Box %d,%d has coordinates: %d, %d", i, j, boxes[i][j].x, boxes[i][j].y));
 //                    printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
                 }
             }
@@ -182,16 +182,14 @@ public class NewCameraBot extends FourWheelDriveBot {
         }
     }
 
-    protected int getAverageRGB (Bitmap bmp){
+    protected int getAverageRGB (Bitmap bmp, int offsetX, int offsetY){
 
         int totalRed = 0;
         int totalGreen = 0;
         int totalBlue = 0;
-        int width = bmp.getWidth();
-        int height = bmp.getHeight();
 
-        for (int x=0; x < width; x++) {
-            for (int y=0; y < height; y++) {
+        for (int x=offsetX; x < offsetX+boxWidth; x++) {
+            for (int y=offsetY; y < offsetY+boxHeight; y++) {
                 int pixel = bmp.getPixel(x, y);
 
                 int red = Color.red(pixel);
@@ -204,9 +202,11 @@ public class NewCameraBot extends FourWheelDriveBot {
             }
         }
 
-        int averageRed = totalRed / (width * height);
-        int averageGreen = totalGreen / (width * height);
-        int averageBlue = totalBlue / (width * height);
+        int averageRed = totalRed / (boxWidth * boxHeight);
+        int averageGreen = totalGreen / (boxWidth * boxHeight);
+        int averageBlue = totalBlue / (boxWidth * boxHeight);
+
+        RobotLog.d(String.format("Average RGB: %d %d %d", averageRed, averageGreen, averageBlue));
 
         return Color.rgb(averageRed, averageGreen, averageBlue);
     }
