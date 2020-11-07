@@ -15,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 
 public class NewCameraBot extends FourWheelDriveBot {
@@ -121,20 +123,27 @@ public class NewCameraBot extends FourWheelDriveBot {
             RobotLog.d("Took Frames from Vuforia");
             Image image = frame.getImage(0);
             Bitmap bmp = vuforia.convertFrameToBitmap(frame);
-            RobotLog.d("Converted Vuforia frame to BMP");
+            RobotLog.d(String.format("Converted Vuforia frame to BMP: %s", bmp.getConfig().toString()));
             // DEBUG : uncomment the following line to save the whole picture captured
-//            printAndSave(bmp, getAverageRGB(bmp), "camera");
+            //printAndSave(bmp, "camera");
             RobotLog.d("Saved camera BMP");
             frame.close();
             RobotLog.d("Closed frame");
+            Bitmap[][] b = new Bitmap[numberOfColumns][numberOfRows];
             int[][] c = new int[numberOfColumns][numberOfRows];
             for (int i = 0; i < numberOfColumns; i++) {
                 for (int j = 0; j < numberOfRows; j++) {
+                    //b[i][j] = Bitmap.createBitmap(bmp, boxes[i][j].x, boxes[i][j].y, boxes[i][j].width, boxes[i][j].height);
                     c[i][j] = getAverageRGB(bmp, boxes[i][j].x, boxes[i][j].y);
+
                     RobotLog.d(String.format("Box %d,%d has coordinates: %d, %d", i, j, boxes[i][j].x, boxes[i][j].y));
-//                    printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
+                    //printAndSave(bmp, "camera");
+                    //printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
                 }
             }
+//            Bitmap smallBmp = Bitmap.createBitmap(bmp, 0, 0, 10, 10);
+//            RobotLog.d(String.format("small BMP: %s", smallBmp.getConfig().toString()));
+//            int test = getAverageRGB(bmp, 0, 0);
             RobotLog.d("Created 9 sub-bitmaps");
             RobotLog.d("Calculate AVG for 9 sub-bitmaps");
             RobotLog.d("Saved 9 sub-bitmaps");
@@ -171,9 +180,14 @@ public class NewCameraBot extends FourWheelDriveBot {
         int red = Color.red(c);
         int green = Color.green(c);
         int blue = Color.blue(c);
+        int average = (red + green + blue) / 3;
+        int redGreenDifference = Math.abs(red - green);
+        int greenBlueDifference = Math.abs(green - blue);
 //((120 < red && 200 > red && 50 < green && 110 > green) || (120 < red && 200 > red && 100 > blue))
 //(red - green + 10 > 0 && red - blue + 10 > 0)
-        if ((120 < red && 200 > red && 50 < green && 110 > green) || (120 < red && 200 > red && 100 > blue)) {
+//(120 < red && 225 > red && 50 < green && 160 > green && 100 > blue)
+        if (red >= average && green > blue && red > green && green > red/2 && greenBlueDifference > 20 && redGreenDifference > 10
+            && ((70 < red && 220 > red && 50 < green && 150 > green) || (70 < red && 220 > red && 100 > blue))) {
             RobotLog.d(String.format("Box %d,%d is TRUE", i, j));
             return true;
         } else {
@@ -188,8 +202,16 @@ public class NewCameraBot extends FourWheelDriveBot {
         int totalGreen = 0;
         int totalBlue = 0;
 
-        for (int x=offsetX; x < offsetX+boxWidth; x++) {
-            for (int y=offsetY; y < offsetY+boxHeight; y++) {
+//        int bytes = bmp.getWidth() * bmp.getHeight() * 4;
+//
+//        RobotLog.d(String.format("bytes: %d width: %d height: %d", bytes, bmp.getWidth(), bmp.getHeight()));
+//        ByteBuffer buffer = ByteBuffer.allocate(bytes);
+//        bmp.copyPixelsToBuffer(buffer);
+//
+//        byte[] byteArray = buffer.array();
+
+        for (int x=offsetX; x < offsetX+boxWidth; x += 4) {
+            for (int y=offsetY; y < offsetY+boxHeight; y += 4) {
                 int pixel = bmp.getPixel(x, y);
 
                 int red = Color.red(pixel);
@@ -197,14 +219,23 @@ public class NewCameraBot extends FourWheelDriveBot {
                 int blue = Color.blue(pixel);
 
                 totalRed += red;
+//                totalRed = Math.max(red, totalRed);
                 totalGreen += green;
                 totalBlue += blue;
             }
         }
 
-        int averageRed = totalRed / (boxWidth * boxHeight);
-        int averageGreen = totalGreen / (boxWidth * boxHeight);
-        int averageBlue = totalBlue / (boxWidth * boxHeight);
+//        for (int i = 0; i<bytes; i++) {
+//            int pixel = byteArray[i];
+//            int red = Color.red(pixel);
+//            int green = Color.green(pixel);
+//            int blue = Color.blue(pixel);
+//            RobotLog.d(String.format("Average RGB of %d: %d %d %d, %d", i, red, green, blue, pixel));
+//        }
+
+        int averageRed = totalRed / (boxWidth / 4 * boxHeight / 4);
+        int averageGreen = totalGreen / (boxWidth / 4 * boxHeight / 4);
+        int averageBlue = totalBlue / (boxWidth / 4 * boxHeight / 4);
 
         RobotLog.d(String.format("Average RGB: %d %d %d", averageRed, averageGreen, averageBlue));
 

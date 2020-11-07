@@ -22,7 +22,7 @@ public class ThreadTest extends LinearOpMode {
     final double wheelDiameter = 3.8;
     final double ticksPerRevolution = 8192;
     final int vLDirection = 1;
-    final int vRDirection = 1;
+    final int vRDirection = -1;
     final int hDirection = 1;
 
     boolean isRunning = true;
