@@ -95,10 +95,7 @@ public class NewCameraBot extends FourWheelDriveBot {
 
     }
 
-    @Override
-    public void print(String message) {
 
-    }
 
     final int NORINGS = 0;
     final int ONERING = 1;
@@ -197,7 +194,6 @@ public class NewCameraBot extends FourWheelDriveBot {
     }
 
     protected int getAverageRGB (Bitmap bmp, int offsetX, int offsetY){
-
         int totalRed = 0;
         int totalGreen = 0;
         int totalBlue = 0;
