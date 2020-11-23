@@ -25,7 +25,7 @@ public class ShooterBot extends FourWheelsDriveBot {
     public void spinshootmotor() {
 
            Shoot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-           Shoot.setPower(-0.5);
+           Shoot.setPower(-.44);
 
 
 
